@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход | MathLeagueAdmin</title>
+    <link rel="stylesheet" th:href="@{/css/unauth/login_style.css}" />
+</head>
+<body>
+<div class="login-container">
+    <h1>Login</h1>
+
+    <form th:action="@{/login}" method="post">
+
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username">
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="input-group">
+            <button type="submit">Login</button>
+        </div>
+    </form>
+
+    <div id="message-container" th:classappend="${param.error} ? 'show' : ''">
+        Invalid username and password.
+    </div>
+
+    <footer>
+        <p>&copy; 2023 MathLeagueAdmin. All rights reserved.</p>
+        <p>Created by Fedorov Ivan</p>
+    </footer>
+</div>
+</body>
+</html>
