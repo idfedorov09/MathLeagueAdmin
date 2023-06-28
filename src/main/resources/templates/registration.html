@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация | MathLeagueAdmin</title>
+    <link rel="stylesheet" th:href="@{/css/unauth/login_style.css}" />
+    <script th:src="@{/js/unauth/reg_format.js}"></script>
+</head>
+<body>
+<div class="login-container">
+    <h1>Register</h1>
+
+    <form th:action="@{/registration}" method="post">
+
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="input-group">
+            <label for="user_nick">User Nick</label>
+            <input type="text" id="user_nick" name="user_nick" required>
+        </div>
+
+        <div class="input-group">
+            <label for="telegramUsername">Telegram Username</label>
+            <input type="text" id="telegramUsername" name="telegramUsername" required>
+        </div>
+
+        <div class="input-group">
+            <label for="secretKey">Secret Key</label>
+            <input type="text" id="secretKey" name="secretKey" required oninput="formatSecretKey(this)">
+        </div>
+
+        <div class="input-group">
+            <button id="registerButton" type="submit" disabled>Register</button>
+        </div>
+    </form>
+
+    <div id="message-container" class="message-container" th:classappend="${param.existError} ? 'show' : ''">
+        Error: user named <span th:text="${param.username}"></span> already exists.
+    </div>
+
+    <div id="message-container-2" class="message-container" th:classappend="${param.keyError} ? 'show' : ''">
+        Error: entered secret key is not available.
+    </div>
+
+    <footer>
+        <p>&copy; 2023 MathLeagueAdmin. All rights reserved.</p>
+        <p>Created by Fedorov Ivan</p>
+    </footer>
+</div>
+
+</body>
+</html>

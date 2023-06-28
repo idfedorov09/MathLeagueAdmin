@@ -39,6 +39,7 @@ h1 {
     border: 1px solid #CCCCCC;
     border-radius: 4px;
     font-size: 16px;
+    text-align: center;
 }
 
 .input-group input:focus {
@@ -56,7 +57,12 @@ h1 {
     cursor: pointer;
 }
 
-.input-group button:hover {
+.input-group button:disabled {
+    background-color: rgba(237, 30, 121, 0.5);
+    cursor: not-allowed;
+}
+
+.input-group button:hover:not(:disabled) {
     background-color: #FF478E;
 }
 
@@ -73,7 +79,7 @@ footer p {
     margin: 5px;
 }
 
-#message-container {
+.message-container{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -86,7 +92,7 @@ footer p {
     animation: fadeOut 0.5s ease-in 1.5s forwards;
 }
 
-#message-container.show {
+.message-container.show {
     display: block;
 }
 
@@ -95,5 +101,3 @@ footer p {
     90% { opacity: 0; }
     100% { opacity: 0; display: none; }
 }
-
-
