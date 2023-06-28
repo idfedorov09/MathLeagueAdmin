@@ -64,9 +64,9 @@ public class RegistrationController {
         user.setOnline(true);
         user.setRoles(Collections.singleton(Role.USER));
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        //String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        //user.setPassword(encodedPassword);
 
-        user.setPassword(encodedPassword);
         userRepository.save(user);
 
         return "redirect:/login";
