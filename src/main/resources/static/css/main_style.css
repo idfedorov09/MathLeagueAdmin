@@ -1,0 +1,141 @@
+/* Reset styles */
+html, body, header, main, section, footer {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header styles */
+header {
+    background-color: #0071BC; /* Изменяем цвет фона на синий */
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 100px; /* Задайте ширину блока .logo по вашему выбору */
+    height: 100px; /* Задайте высоту блока .logo по вашему выбору */
+}
+
+.logo img {
+    max-width: 200%;
+    max-height: 200%;
+}
+
+
+ul {
+    list-style: none;
+    display: flex;
+}
+
+ul li {
+    margin-right: 20px;
+}
+
+ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+ul li a:hover {
+    color: #FF478E;
+}
+
+.hero {
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #FF478E;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #E63A7C;
+}
+
+/* Main styles */
+section {
+    padding: 100px 0;
+    text-align: center;
+}
+
+section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Footer styles */
+footer {
+    background-color: #0071BC; /* Изменяем цвет фона на синий */
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer p {
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: #FFFFFF; /* Изменяем цвет текста на белый */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ED1E79;
+}
+
+.footer-container {
+    color: #FFFFFF;
+}
+
+#footer {
+    color: #FFFFFF;
+}
+
+#footer a {
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#footer a:hover {
+    color: #ED1E79;
+}
+
+

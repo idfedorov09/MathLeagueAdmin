@@ -21,8 +21,24 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/css/unauth/");
 
         registry
+                .addResourceHandler("/styles/css/**")
+                .addResourceLocations("classpath:/static/css/");
+
+        registry
                 .addResourceHandler("/js/unauth/**")
                 .addResourceLocations("classpath:/static/js/unauth/");
+
+        registry
+                .addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/");
+
+        registry
+                .addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/images/");
+
+        registry
+                .addResourceHandler("/images/unauth/**")
+                .addResourceLocations("classpath:/images/unauth/");
     }
 
 }

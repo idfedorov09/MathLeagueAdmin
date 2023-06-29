@@ -1,15 +1,70 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hello World!</title>
+    <meta charset="UTF-8">
+    <title>MathLeagueAdmin</title>
+    <link rel="stylesheet" th:href="@{/css/main_style.css}" />
+    <link rel="stylesheet" th:href="@{/css/main/sections.css}" />
 </head>
 <body>
-<h1 th:inline="text">Hello
-    <span th:remove="tag" th:text="${#authentication.principal.user_nick}">default_nick</span>
-    !</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<header>
+    <nav>
+        <div class="logo">
+            <img src="/images/logo.png" alt="MathLeagueAdmin Logo">
+        </div>
+        <ul>
+            <li><a href="#section1">Section 1</a></li>
+            <li><a href="#section2">Section 2</a></li>
+            <li><a href="#section3">Section 3</a></li>
+        </ul>
+    </nav>
+    <div class="hero">
+        <h1>MathLeagueAdmin</h1>
+        <p>Your ultimate admin solution for math competitions.</p>
+        <a href="#section1" class="btn">Get Started</a>
+    </div>
+</header>
+
+<main>
+    <section id="section1" class="task-section">
+        <div class="container">
+            <div class="task-content">
+                <div class="task-text">
+                    <h2>Задачи недели</h2>
+                    <p>Меняйте распорядок, время и очередь публикации задач дня!</p>
+                    <a href="#" class="btn btn-animated">Перейти к задачам</a>
+                </div>
+                <div class="task-image">
+                    <img src="/images/task_example.jpg" alt="Пример задачи дня">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="section2">
+        <div class="container">
+            <h2>Section 2</h2>
+            <p>This is the second section of the website.</p>
+        </div>
+    </section>
+
+    <section id="section3">
+        <div class="container">
+            <h2>Section 3</h2>
+            <p>This is the third section of the website.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div id="footer" class="container">
+        <p>&copy; 2023 MathLeagueAdmin. All rights reserved.</p>
+        <p>Created by Fedorov Ivan</p>
+        <a href="/admin">Admin Page</a>
+    </div>
+</footer>
+
 </body>
 </html>
