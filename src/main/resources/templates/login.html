@@ -13,12 +13,12 @@
 
         <div class="input-group">
             <label for="username">Username</label>
-            <input type="text" name="username" id="username">
+            <input type="text" name="username" id="username" th:value="${username}">
         </div>
 
         <div class="input-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required th:value="${password}">
         </div>
 
         <div class="input-group">
@@ -30,10 +30,15 @@
         Invalid username and password.
     </div>
 
+
     <footer>
         <p>&copy; 2023 MathLeagueAdmin. All rights reserved.</p>
         <p>Created by Fedorov Ivan</p>
     </footer>
 </div>
+
+<script>
+    window.history.pushState("", "", "/login");
+</script>
 </body>
 </html>

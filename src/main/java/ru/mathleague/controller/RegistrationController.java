@@ -51,14 +51,14 @@ public class RegistrationController {
         User userFromDatabase = userRepository.findByUsername(user.getUsername());
 
         if( userFromDatabase != null ) {
-            redirectModel.addAttribute("existError", true);
-            redirectModel.addAttribute("username", user.getUsername());
-            return "redirect:/registration";
+            model.addAttribute("existError", true);
+            model.addAttribute("username", user.getUsername());
+            return "registration";
         }
 
         if(!keyIsCorrect(secretKey)){
-            redirectModel.addAttribute("keyError", true);
-            return "redirect:/registration";
+            model.addAttribute("keyError", true);
+            return "registration";
         }
 
         user.setOnline(true);
@@ -69,6 +69,10 @@ public class RegistrationController {
 
         userRepository.save(user);
 
-        return "redirect:/login";
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("password", user.getPassword());
+
+        return "forward:/login";
+        //return "login";
     }
 }

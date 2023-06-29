@@ -42,11 +42,11 @@
         </div>
     </form>
 
-    <div id="message-container" class="message-container" th:classappend="${param.existError} ? 'show' : ''">
-        Error: user named <span th:text="${param.username}"></span> already exists.
+    <div id="message-container" class="message-container" th:classappend="${existError} ? 'show' : ''">
+        Error: user named <span th:text="${username}"></span> already exists.
     </div>
 
-    <div id="message-container-2" class="message-container" th:classappend="${param.keyError} ? 'show' : ''">
+    <div id="message-container-2" class="message-container" th:classappend="${keyError} ? 'show' : ''">
         Error: entered secret key is not available.
     </div>
 
