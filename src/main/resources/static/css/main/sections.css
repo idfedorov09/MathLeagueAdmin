@@ -5,6 +5,10 @@
     background-color: #F2F2F2;
 }
 
+.task-section.even {
+    background-color: #FFFFFF;
+}
+
 .task-content {
     display: flex;
     flex-direction: row;
@@ -15,6 +19,10 @@
 .task-text {
     flex: 1;
     text-align: left;
+}
+
+.task-text.horizontally-flipped {
+    text-align: right;
 }
 
 .task-text h2 {
@@ -33,6 +41,10 @@
 .task-image {
     flex: 1;
     text-align: center;
+}
+
+.task-image.horizontally-flipped {
+    order: -1;
 }
 
 .task-image img {
