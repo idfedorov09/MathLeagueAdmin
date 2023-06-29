@@ -19,9 +19,6 @@ public class WebSecurityConfig {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DataSource dataSource;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -40,20 +37,6 @@ public class WebSecurityConfig {
                 .logout((logout) -> logout.permitAll());
         return http.build();
     }
-
-
-    /*@Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }*/
-
 
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
