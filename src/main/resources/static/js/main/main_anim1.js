@@ -24,3 +24,26 @@ window.addEventListener('scroll', scrollHandler);
 window.addEventListener('load', () => {
   animateSections();
 });
+
+// Получение кнопок панели и обработка событий
+const tabButtons = document.querySelectorAll('.tab-button');
+
+tabButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        // Удаление класса "active" у всех кнопок
+        tabButtons.forEach((btn) => {
+            btn.classList.remove('active');
+        });
+
+        // Добавление класса "active" для нажатой кнопки
+        button.classList.add('active');
+
+        // Выполнение соответствующих действий при нажатии кнопки
+        const target = button.getAttribute('data-target');
+        // Например, можно скрывать/отображать соответствующую секцию
+        const section = document.getElementById(target);
+        section.style.display = 'block';
+        // И скрывать/отображать остальные секции при необходимости
+    });
+});
+

@@ -5,6 +5,7 @@
     <title>MathLeagueAdmin</title>
     <link rel="stylesheet" th:href="@{/css/main_style.css}" />
     <link rel="stylesheet" th:href="@{/css/main/sections.css}" />
+    <link rel="stylesheet" th:href="@{/css/main/panel.css}" />
     <script th:src="@{/js/main/main_anim1.js}"></script>
 </head>
 <body>
@@ -13,12 +14,12 @@
         <div class="logo">
             <img src="/images/logo.png" alt="MathLeagueAdmin Logo">
         </div>
-        <ul>
-            <li><a href="#section1">
-                <span th:remove="tag" th:text="${#authentication.principal.user_nick}">default_nick</span>
-            </a></li>
-            <li><a href="#section2">Section 2</a></li>
-            <li><a href="#section3">Section 3</a></li>
+        <ul class="navigation">
+            <li><button class="tab-button active" data-target="main">Главная</button></li>
+            <li><button class="tab-button" data-target="news">Новости</button></li>
+            <li><button class="tab-button" data-target="events">Мероприятия</button></li>
+            <li><button class="tab-button" data-target="profile">Профиль</button></li>
+            <!-- Добавьте дополнительные кнопки здесь -->
         </ul>
     </nav>
     <div class="hero">
