@@ -1,5 +1,5 @@
 /* Reset styles */
-html, body, header, main, section, footer {
+html, body, header, main, footer {
     margin: 0;
     padding: 0;
 }
@@ -86,17 +86,6 @@ ul li a:hover {
 
 .btn:hover {
     background-color: #E63A7C;
-}
-
-/* Main styles */
-section {
-    padding: 100px 0;
-    text-align: center;
-}
-
-section h2 {
-    font-size: 36px;
-    margin-bottom: 20px;
 }
 
 /* Footer styles */

@@ -1,59 +1,41 @@
-/* Task section styles */
 .task-section {
     padding: 100px 0;
     text-align: center;
     background-color: #F2F2F2;
+
+    padding: 100px 0;
+    text-align: center;
+    margin: 0;
+
 }
 
-.task-section.even {
-    background-color: #FFFFFF;
-}
-
-.task-content {
+.section-content {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.task-text {
+
+.section-description {
     flex: 1;
     text-align: left;
 }
 
-.task-text.horizontally-flipped {
-    text-align: right;
-}
-
-.task-text h2 {
+.section-description h2 {
     font-size: 48px;
     font-weight: bold;
     color: #333333;
     margin-bottom: 20px;
 }
 
-.task-text p {
+.section-description p {
     font-size: 24px;
     color: #666666;
     margin-bottom: 30px;
 }
 
-.task-image {
-    flex: 1;
-    text-align: center;
-}
-
-.task-image.horizontally-flipped {
-    order: -1;
-}
-
-.task-image img {
-    max-height: 300px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.task-text .btn {
+.section-description .btn {
     display: inline-block;
     padding: 12px 24px;
     background-color: #FF478E;
@@ -63,6 +45,29 @@
     transition: background-color 0.3s ease;
 }
 
-.task-text .btn:hover {
+.section-description .btn:hover {
     background-color: #E63A7C;
+}
+
+.section-image {
+    flex: 1;
+    text-align: center;
+}
+
+.section-image img {
+    width: 560px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-section.even {
+    background-color: #FFFFFF;
+}
+
+.task-section.even .section-description {
+    text-align: right;
+}
+
+.task-section.even .section-image {
+    order: -1;
 }
