@@ -1,9 +1,8 @@
-/* ... предыдущие стили ... */
-
 /* Task section styles */
 .task-section {
     padding: 100px 0;
     text-align: center;
+    background-color: #F2F2F2;
 }
 
 .task-content {
@@ -19,12 +18,15 @@
 }
 
 .task-text h2 {
-    font-size: 36px;
+    font-size: 48px;
+    font-weight: bold;
+    color: #333333;
     margin-bottom: 20px;
 }
 
 .task-text p {
     font-size: 24px;
+    color: #666666;
     margin-bottom: 30px;
 }
 
@@ -34,7 +36,9 @@
 }
 
 .task-image img {
-    max-height: 400px; /* Задайте максимальную высоту картинки по вашему выбору */
+    max-height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .task-text .btn {
