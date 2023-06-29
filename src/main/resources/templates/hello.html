@@ -18,7 +18,19 @@
             <li><button class="tab-button" data-target="main">Главная</button></li>
             <li><button class="tab-button" data-target="news">Новости</button></li>
             <li><button class="tab-button" data-target="events">Мероприятия</button></li>
-            <li><button class="tab-button" data-target="profile">Профиль</button></li>
+            <li class="dropdown">
+                <button class="tab-button" data-target="profile">
+                    <span th:remove="tag" th:text="${#authentication.principal.username ?: '<strong>&lt;NONE&gt;</strong>'}"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Настройки</a></li>
+                    <li>
+                        <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
+                        <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </nav>
     <div class="hero">

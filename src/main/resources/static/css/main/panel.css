@@ -28,3 +28,65 @@
 .tab-button:hover::before {
     transform: scaleX(1); /* Проявление псевдоэлемента при просвечивании */
 }
+/*
+display: block;  внутри .dropdown-menu если выпадает вправо
+
+*/
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  display: none;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  list-style: none;
+  margin: 0;
+  border-radius: 4px;
+  min-width: 120px;
+  /*padding: 10px; /* Убираем отступы для списка */
+  text-align: center; /* Выравниваем элементы по центру */
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.dropdown-menu li::after {
+  content: "";
+  position: absolute;
+  width: 80%; /* Ширина полоски */
+  height: 1px; /* Толщина полоски */
+  background-color: #CCCCCC; /* Цвет полоски */
+  bottom: 0;
+  left: 10%; /* Расположение полоски (10% отступ слева) */
+}
+
+.dropdown-menu li a {
+  display: block;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+  color: #333333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.dropdown-menu li a:hover {
+  color: #FF478E;
+}
