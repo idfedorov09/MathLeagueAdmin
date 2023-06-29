@@ -1,12 +1,17 @@
-.task-section {
+.section {
     padding: 100px 0;
     text-align: center;
     background-color: #F2F2F2;
 
-    padding: 100px 0;
+    padding: 90px 0;
     text-align: center;
     margin: 0;
+}
 
+.section-container{
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .section-content {
@@ -60,14 +65,31 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.task-section.even {
+.section.even {
     background-color: #FFFFFF;
 }
 
-.task-section.even .section-description {
+.section.even .section-description {
     text-align: right;
 }
 
-.task-section.even .section-image {
+.section.even .section-image {
     order: -1;
+}
+
+.section, .section.even {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section .section-description, .section.even .section-image {
+    flex: 1;
+    text-align: left;
+}
+
+.section .section-image, .section.even .section-description {
+    flex: 1;
+    text-align: right;
 }
