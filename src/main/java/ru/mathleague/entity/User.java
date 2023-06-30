@@ -110,4 +110,12 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isOnline();
     }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
+    }
+
+    public boolean isJustUser() {
+        return roles.contains(Role.USER) && roles.size()==1;
+    }
 }
