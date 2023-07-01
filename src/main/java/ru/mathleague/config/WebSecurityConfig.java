@@ -10,8 +10,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.mathleague.service.UserService;
 
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -23,11 +21,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/").permitAll()
                         .requestMatchers("/registration**").permitAll()
                         .requestMatchers("/css/unauth/**").permitAll()
                         .requestMatchers("/js/unauth/**").permitAll()
-                        .requestMatchers("/images/unauth/**", "/icon.png").permitAll()
+                        .requestMatchers("/images/unauth/**", "/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
