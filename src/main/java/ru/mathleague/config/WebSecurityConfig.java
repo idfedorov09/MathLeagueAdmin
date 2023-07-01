@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/registration**").permitAll()
                         .requestMatchers("/css/unauth/**").permitAll()
                         .requestMatchers("/js/unauth/**").permitAll()
-                        .requestMatchers("/images/unauth/**").permitAll()
+                        .requestMatchers("/images/unauth/**", "/icon.png").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
