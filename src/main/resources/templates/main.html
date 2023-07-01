@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/main/sections.css}" />
     <link rel="stylesheet" th:href="@{/css/main/panel.css}" />
     <script th:src="@{/js/main/main_anim1.js}"></script>
+    <script src="https://kit.fontawesome.com/48c68970f2.js" crossorigin="anonymous"></script>
 </style>
 
 </head>
@@ -17,22 +18,36 @@
             <img src="/images/logo.png" alt="MathLeagueAdmin Logo">
         </div>
         <ul class="navigation">
+
             <li><a th:href="@{/}" class="tab-link">Главная</a></li>
+
             <li><a href="#" class="tab-link">Новости</a></li>
+
             <li><a href="#" class="tab-link">Мероприятия</a></li>
+
             <li class="dropdown">
                 <a class="tab-link">
                     <span th:remove="tag" th:text="${#authentication.principal.username ?: '<strong>&lt;unknown user&gt;</strong>'}"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="admin-type"><a href="#" th:if="${#authentication.principal.isJustUser}">Пользователи</a></li>
-                    <li><a href="#">Настройки</a></li>
+
+                    <li class="admin-type">
+                        <a href="#" th:if="${#authentication.principal.isJustUser}">
+                            <i class="fa-sharp fa-solid fa-users"></i> Пользователи
+                        </a>
+                    </li>
+
+                    <li><a href="#"> <i class="fa-sharp fa-solid fa-gears"></i> Настройки</a></li>
+
                     <li>
-                        <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
+                        <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
+                            <i class="fa-sharp fa-solid fa-right-from-bracket"></i> Выход
+                        </a>
                         <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
                     </li>
                 </ul>
             </li>
+
         </ul>
     </nav>
 
