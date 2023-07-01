@@ -1,4 +1,4 @@
-.tab-button {
+.tab-link {
     padding: 10px 20px;
     background-color: transparent;
     color: #333333;
@@ -9,7 +9,7 @@
     position: relative; /* Добавлено для позиционирования псевдоэлемента */
 }
 
-.tab-button::before {
+.tab-link::before {
     content: "";
     position: absolute;
     bottom: 0;
@@ -21,11 +21,11 @@
     transition: transform 0.3s ease;
 }
 
-.tab-button:hover {
+.tab-link:hover {
     color: #FF478E;
 }
 
-.tab-button:hover::before {
+.tab-link:hover::before {
     transform: scaleX(1); /* Проявление псевдоэлемента при просвечивании */
 }
 /*
@@ -38,8 +38,9 @@ display: block;  внутри .dropdown-menu если выпадает впра�
 }
 
 .dropdown-menu {
+width: 100%;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px); /* Расстояние между ссылкой и выпадающим меню */
   left: 0;
   z-index: 1;
   display: none;
@@ -50,8 +51,7 @@ display: block;  внутри .dropdown-menu если выпадает впра�
   margin: 0;
   border-radius: 4px;
   min-width: 120px;
-  /*padding: 10px; /* Убираем отступы для списка */
-  text-align: center; /* Выравниваем элементы по центру */
+  text-align: center;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -89,7 +89,7 @@ display: block;  внутри .dropdown-menu если выпадает впра�
 }
 
 /* Новые стили кнопок в навигационном меню */
-.navigation .tab-button {
+.navigation .tab-link {
     position: relative;
     padding: 10px 20px;
     background-color: transparent;
@@ -100,7 +100,7 @@ display: block;  внутри .dropdown-menu если выпадает впра�
     transition: color 0.3s ease;
 }
 
-.navigation .tab-button::before {
+.navigation .tab-link::before {
     content: "";
     position: absolute;
     bottom: 0;
@@ -112,19 +112,19 @@ display: block;  внутри .dropdown-menu если выпадает впра�
     transition: transform 0.3s ease;
 }
 
-.navigation .tab-button:hover {
+.navigation .tab-link:hover {
     color: #FF478E;
 }
 
-.navigation .tab-button:hover::before {
+.navigation .tab-link:hover::before {
     transform: scaleX(1);
 }
 
 /* Стили для активной кнопки */
-.navigation .tab-button.active {
+.navigation .tab-link.active {
     color: #FF478E;
 }
 
-.navigation .tab-button.active::before {
+.navigation .tab-link.active::before {
     transform: scaleX(1);
 }

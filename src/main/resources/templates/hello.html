@@ -16,13 +16,13 @@
             <img src="/images/logo.png" alt="MathLeagueAdmin Logo">
         </div>
         <ul class="navigation">
-            <li><button class="tab-button" data-target="main">Главная</button></li>
-            <li><button class="tab-button" data-target="news">Новости</button></li>
-            <li><button class="tab-button" data-target="events">Мероприятия</button></li>
+            <li><a href="#" class="tab-link" data-target="main">Главная</a></li>
+            <li><a href="#" class="tab-link" data-target="news">Новости</a></li>
+            <li><a href="#" class="tab-link" data-target="events">Мероприятия</a></li>
             <li class="dropdown">
-                <button class="tab-button" data-target="profile">
+                <a href="#" class="tab-link" data-target="profile">
                     <span th:remove="tag" th:text="${#authentication.principal.username ?: '<strong>&lt;NONE&gt;</strong>'}"></span>
-                </button>
+                </a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Настройки</a></li>
                     <li>
@@ -31,9 +31,9 @@
                     </li>
                 </ul>
             </li>
-
         </ul>
     </nav>
+
     <div class="hero">
         <h1>MathLeagueAdmin</h1>
         <p>Your ultimate admin solution for math competitions.</p>
