@@ -16,11 +16,11 @@
             <img src="/images/logo.png" alt="MathLeagueAdmin Logo">
         </div>
         <ul class="navigation">
-            <li><a href="#" class="tab-link" data-target="main">Главная</a></li>
-            <li><a href="#" class="tab-link" data-target="news">Новости</a></li>
-            <li><a href="#" class="tab-link" data-target="events">Мероприятия</a></li>
+            <li><a href="#" class="tab-link">Главная</a></li>
+            <li><a href="#" class="tab-link">Новости</a></li>
+            <li><a href="#" class="tab-link">Мероприятия</a></li>
             <li class="dropdown">
-                <a href="#" class="tab-link" data-target="profile">
+                <a href="#" class="tab-link">
                     <span th:remove="tag" th:text="${#authentication.principal.username ?: '<strong>&lt;NONE&gt;</strong>'}"></span>
                 </a>
                 <ul class="dropdown-menu">
