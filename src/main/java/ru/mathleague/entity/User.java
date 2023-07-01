@@ -21,7 +21,6 @@ public class User implements UserDetails {
     private String user_nick;
     private String password;
 
-    private String telegramUsername;
     private boolean online;
 
 
@@ -60,14 +59,6 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getTelegramUsername() {
-        return telegramUsername;
-    }
-
-    public void setTelegramUsername(String telegramUsername) {
-        this.telegramUsername = telegramUsername;
     }
 
     public boolean isOnline() {

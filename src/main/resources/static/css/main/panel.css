@@ -128,3 +128,7 @@ display: block;  внутри .dropdown-menu если выпадает впра�
 .navigation .tab-link.active::before {
     transform: scaleX(1);
 }
+
+.dropdown-menu li.admin-type a:hover {
+  color: #ff4d4d;
+}
