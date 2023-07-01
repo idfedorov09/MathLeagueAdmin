@@ -17,7 +17,7 @@ body {
 
 /* Header styles */
 header {
-    background-color: #0071BC; /* Изменяем цвет фона на синий */
+    background-color: #4094cd; /* Изменяем цвет фона на синий */
     color: #FFFFFF;
     padding: 20px;
     text-align: center;
@@ -31,13 +31,13 @@ nav {
 }
 
 .logo {
-    width: 100px; /* Задайте ширину блока .logo по вашему выбору */
-    height: 100px; /* Задайте высоту блока .logo по вашему выбору */
+    width: 70px; /* Задайте ширину блока .logo по вашему выбору */
+    height: 70px; /* Задайте высоту блока .logo по вашему выбору */
 }
 
 .logo img {
-    max-width: 200%;
-    max-height: 200%;
+    max-width: 275%;
+    max-height: 275%;
 }
 
 
@@ -90,7 +90,7 @@ ul li a:hover {
 
 /* Footer styles */
 footer {
-    background-color: #0071BC; /* Изменяем цвет фона на синий */
+    background-color: #4094cd; /* Изменяем цвет фона на синий */
     padding: 20px 0;
     text-align: center;
 }
