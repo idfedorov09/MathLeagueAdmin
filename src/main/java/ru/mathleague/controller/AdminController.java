@@ -3,6 +3,7 @@ package ru.mathleague.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,18 +47,41 @@ public class AdminController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute("user") User newUser, @RequestParam(name = "roles") Set<Role> roles){
+    public String saveUser(@ModelAttribute("userId") User newUser,
+                           @RequestParam(name = "roles", required = false) Set<Role> roles){
+
         User user = userRepository.findById(newUser.getId());
+        if(user==null) return "errors/error";
 
-        if(user==null) return "errors/error"; ///ошибОчка
-
-        user.setUsername(newUser.getUsername());
         user.setRoles(roles);
-        user.setUser_nick(newUser.getUser_nick());
         user.setTelegramUsername(newUser.getTelegramUsername());
+        user.setUser_nick(newUser.getUser_nick());
+        user.setUsername(newUser.getUsername());
 
-        userRepository.save(user); //при изменении роли ошибка. Почему?
-        return "/main"; //сообщение об успехе
+        userRepository.save(user);
+
+
+        return "/main";
+    }
+
+    @GetMapping("/setAdmin")
+    public String addTest(@AuthenticationPrincipal User user){
+        user.getRoles().add(Role.ADMIN);
+        userRepository.save(user);
+        return "/main";
+    }
+
+    @GetMapping("/test")
+    public String test(@AuthenticationPrincipal User user){
+        System.out.println(user.getRoles());
+        return "/main";
+    }
+
+    @GetMapping("/removeAdmin")
+    public String removeTest(@AuthenticationPrincipal User user){
+        user.getRoles().remove(Role.ADMIN);
+        userRepository.save(user);
+        return "/main";
     }
 
 }

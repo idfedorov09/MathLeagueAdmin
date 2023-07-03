@@ -31,13 +31,13 @@
                 <ul class="dropdown-menu">
 
                     <li class="admin-type">
-                        <a href="/admin/users" th:if="${#authentication.principal.isJustUser}">
+                        <a href="/admin/users" th:if="${#authentication.principal.isAdmin}">
                             <i class="fa-sharp fa-solid fa-users"></i> Пользователи
                         </a>
                     </li>
 
                     <li class="admin-type">
-                        <a href="#" th:if="${#authentication.principal.isJustUser}">
+                        <a href="#" th:if="${#authentication.principal.isAdmin}">
                             <i class="fa-solid fa-key"></i> Секретные ключи
                         </a>
                     </li>
