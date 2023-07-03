@@ -8,6 +8,7 @@ html, body, header, main, footer {
 body {
     font-family: Arial, sans-serif;
     display: grid;
+    min-height: 100vh;
 }
 
 .container {
