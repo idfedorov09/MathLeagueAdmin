@@ -1,0 +1,39 @@
+body{
+  min-height: 100vh;
+}
+
+footer {
+}
+
+.error-div {
+    text-align: center;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.error-div h2 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.error-div p {
+    font-size: 24px;
+    color: #666666;
+    margin-bottom: 30px;
+}
+
+.error-div .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #FF478E;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.error-div .btn:hover {
+    background-color: #E63A7C;
+}

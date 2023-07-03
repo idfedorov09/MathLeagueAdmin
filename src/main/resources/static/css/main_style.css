@@ -7,6 +7,7 @@ html, body, header, main, footer {
 /* Global styles */
 body {
     font-family: Arial, sans-serif;
+    display: grid;
 }
 
 .container {
@@ -19,6 +20,7 @@ body {
 header {
     background-color: #4094cd; /* Изменяем цвет фона на синий */
     color: #FFFFFF;
+    height: 230px;
     padding: 20px;
     text-align: center;
 }
@@ -91,7 +93,6 @@ ul li a:hover {
 /* Footer styles */
 footer {
     background-color: #4094cd; /* Изменяем цвет фона на синий */
-    padding: 20px 0;
     text-align: center;
 }
 
