@@ -34,14 +34,14 @@ public class AdminController {
     @Autowired
     private SessionUtil sessionUtil;
 
-    @GetMapping("users")
+    @GetMapping("/users")
     public String usersPage(Model model) {
         List<User> allUsers = userRepository.findAllByOrderById(); // Получить список всех пользователей из репозитория
         List<Role> allRoles = Arrays.asList(Role.values());
         model.addAttribute("allUsers", allUsers); // Добавить список пользователей в модель
         model.addAttribute("allRoles", allRoles);
 
-        return "/admin/users";
+        return "admin/users";
     }
 
     @GetMapping("/getUser")
@@ -71,7 +71,7 @@ public class AdminController {
         userRepository.save(user);
 
 
-        return "/main";
+        return "main";
     }
 
     @PostMapping("/deleteUser/{userId}")
