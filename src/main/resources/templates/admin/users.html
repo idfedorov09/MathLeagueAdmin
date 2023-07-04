@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/main/sections.css}" />
     <link rel="stylesheet" th:href="@{/css/main/panel.css}" />
     <link rel="stylesheet" th:href="@{/css/admin/users.css}" />
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/main/main_anim1.js}"></script>
     <script th:src="@{/js/admin/users.js}"></script>
@@ -66,8 +67,11 @@
     </div>
 </header>
 
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
 <main>
+
     <section id="user-list" class="section">
         <div class="users-container">
             <h2>Список пользователей</h2>
@@ -95,14 +99,16 @@
                                 <span class="status" th:classappend="${user.online ? 'online' : 'offline'}"></span>
                             </td>
                             <td>
-                                <span th:each="role : ${user.roles}" th:text="${role}"></span>
+                                <span th:each="role, iterStat : ${user.roles}">
+                                <span th:text="${role}"></span><span th:if="${!iterStat.last}">;</span>
+                                </span>
                             </td>
                             <td>
                                 <button class="action-btn edit-btn" title="Редактировать" type="button"
                                         th:attr="data-user-id=${user.id},data-username=${user.username}, data-user-nick=${user.user_nick}, data-telegram=${user.telegramUsername},data-roles=${user.roles}"><i class="fas fa-edit"></i></button>
 
-                                <button class="action-btn delete-btn" title="Удалить" data-user-id="${user.id}"><i class="fas fa-trash-alt"></i></button>
-                            </td>
+                                <button class="action-btn delete-btn"  th:attr="data-user-id=${user.id}" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                                </td>
                         </tr>
                     </th:block>
                     </tbody>
@@ -132,11 +138,13 @@
 
             <label for="editRoles">Роли:</label>
             <div class="role-list">
-                <label th:each="role : ${allRoles}" class="role-item">
+                <label th:each="role, iterStat : ${allRoles}" class="role-item">
                     <input type="checkbox" id="editRoles" name="roles" th:value="${role}">
                     <span th:text="${role}"></span>
                 </label>
             </div>
+
+
 
             <button type="submit" class="submit-btn">Сохранить</button>
         </form>

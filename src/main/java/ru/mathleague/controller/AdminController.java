@@ -4,8 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.mathleague.entity.User;
@@ -15,6 +21,7 @@ import ru.mathleague.service.UserService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -23,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private SessionUtil sessionUtil;
 
     @GetMapping("users")
     public String usersPage(Model model) {
@@ -64,24 +74,16 @@ public class AdminController {
         return "/main";
     }
 
-    @GetMapping("/setAdmin")
-    public String addTest(@AuthenticationPrincipal User user){
-        user.getRoles().add(Role.ADMIN);
-        userRepository.save(user);
-        return "/main";
-    }
+    @PostMapping("/deleteUser/{userId}")
+    @Transactional
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
 
-    @GetMapping("/test")
-    public String test(@AuthenticationPrincipal User user){
-        System.out.println(user.getRoles());
-        return "/main";
-    }
+        User user = userRepository.findById(userId);
+        sessionUtil.expireUserSessions(user.getUsername());
 
-    @GetMapping("/removeAdmin")
-    public String removeTest(@AuthenticationPrincipal User user){
-        user.getRoles().remove(Role.ADMIN);
-        userRepository.save(user);
-        return "/main";
+        userRepository.removeById(userId);
+
+        return ResponseEntity.ok("User deleted successfully");
     }
 
 }

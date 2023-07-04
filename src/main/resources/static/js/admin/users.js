@@ -15,6 +15,27 @@ $(document).ready(function() {
 
         markSelectedRoles(roles);
     });
+
+    $('.delete-btn').click(function(){
+            var userId = $(this).data('user-id');
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "/admin/deleteUser/"+userId, true);
+            xhr.setRequestHeader(header, token);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            var raw = this;
+            xhr.onload = function() {
+              if (xhr.status === 200) {
+                 $(raw).closest("tr").remove();
+              } else {
+                console.error("Error on removing");
+              }
+            };
+            xhr.send();
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -30,9 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
             editPopupContainer.classList.remove("show");
         }
     });
-
-    // Дополнительный код обработки нажатия на кнопку "Редактировать"
-    // и заполнение полей формы данными пользователя
 });
 
 function markSelectedRoles(roles) {
@@ -47,3 +65,6 @@ function markSelectedRoles(roles) {
         }
     });
 }
+
+
+

@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<User, Void> {
     List<User> findAllByOrderById();
 
     User findById(Long id);
+
+    Long removeById(Long id);
 }
