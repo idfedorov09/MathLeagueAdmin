@@ -29,6 +29,8 @@ public class User implements UserDetails {
 
     private Date lastRequest;
 
+    private boolean isLoggedOut;
+
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.LAZY)
     @CollectionTable(name="user_role", joinColumns = @JoinColumn(name="user_id"))
@@ -76,6 +78,7 @@ public class User implements UserDetails {
     }
 
     public boolean isOnline() {
+
         boolean isTimeout = UserUtil.isTimeout(this.lastRequest);
         this.setOnline(!isTimeout);
 
@@ -83,7 +86,12 @@ public class User implements UserDetails {
     }
 
     public void setOnline(boolean online) {
-        this.online = online;
+        if(this.isLoggedOut){
+            this.online = false;
+        }
+        else{
+            this.online = online;
+        }
     }
 
     public Set<Role> getRoles() {
@@ -99,7 +107,16 @@ public class User implements UserDetails {
     }
 
     public void setLastRequest(Date lastRequest) {
+        this.isLoggedOut = false;
         this.lastRequest = lastRequest;
+    }
+
+    public boolean isLoggedOut() {
+        return isLoggedOut;
+    }
+
+    public void setLoggedOut(boolean loggedOut) {
+        isLoggedOut = loggedOut;
     }
 
     @Override
