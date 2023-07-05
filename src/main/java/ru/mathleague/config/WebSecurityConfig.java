@@ -10,8 +10,11 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import ru.mathleague.entity.util.Role;
+import ru.mathleague.repository.UserRepository;
 import ru.mathleague.service.UserService;
+import ru.mathleague.util.UpdateLastRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +22,9 @@ public class WebSecurityConfig {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Bean
     public SessionRegistry sessionRegistry() {
@@ -45,7 +51,8 @@ public class WebSecurityConfig {
                         sessionManagement
                                 .maximumSessions(1)
                                 .sessionRegistry(sessionRegistry())
-                );;
+                )
+                .addFilterAfter(new UpdateLastRequestFilter(userRepository), BasicAuthenticationFilter.class);
         return http.build();
     }
 

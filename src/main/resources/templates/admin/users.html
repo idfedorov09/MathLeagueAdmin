@@ -83,6 +83,7 @@
                         <th>Имя пользователя</th>
                         <th>Псевдоним</th>
                         <th>Telegram</th>
+                        <th>Последний запрос</th>
                         <th>Онлайн</th>
                         <th>Роли</th>
                         <th>Действия</th>
@@ -95,6 +96,7 @@
                             <td th:text="${user.username}"></td>
                             <td th:text="${user.user_nick}"></td>
                             <td th:text="${user.telegramUsername}"></td>
+                            <td th:text="${user.lastRequest}"></td>
                             <td>
                                 <span class="status" th:classappend="${user.online ? 'online' : 'offline'}"></span>
                             </td>

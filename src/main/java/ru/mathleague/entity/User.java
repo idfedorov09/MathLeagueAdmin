@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.mathleague.entity.util.Role;
+import ru.mathleague.entity.util.UserUtil;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -24,6 +26,8 @@ public class User implements UserDetails {
 
     private String telegramUsername;
     private boolean online;
+
+    private Date lastRequest;
 
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.LAZY)
@@ -72,6 +76,9 @@ public class User implements UserDetails {
     }
 
     public boolean isOnline() {
+        boolean isTimeout = UserUtil.isTimeout(this.lastRequest);
+        this.setOnline(!isTimeout);
+
         return online;
     }
 
@@ -85,6 +92,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Date getLastRequest() {
+        return lastRequest;
+    }
+
+    public void setLastRequest(Date lastRequest) {
+        this.lastRequest = lastRequest;
     }
 
     @Override
@@ -109,7 +124,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isOnline();
+        return true;
     }
 
     public boolean isAdmin() {
