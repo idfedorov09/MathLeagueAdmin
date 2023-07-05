@@ -38,3 +38,4 @@ out/
 /gradle/
 /myhelps/
 keystore*
+/src/main/resources/static/js/src/
