@@ -4,11 +4,33 @@ html, body, header, main, footer {
     padding: 0;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
 /* Global styles */
 body {
     font-family: Arial, sans-serif;
     display: grid;
-    min-height: 100vh;
+    grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 0.6fr 2.1fr 0.3fr;
+      gap: 0px 0px;
+      grid-auto-flow: row;
+      grid-template-areas:
+        "header header header"
+        "main main main"
+        "footer footer footer";
+}
+
+header{
+    grid-area: header;
+}
+
+main{
+grid-area: main;
+}
+footer{
+grid-area: footer;
 }
 
 .container {
@@ -21,7 +43,6 @@ body {
 header {
     background-color: #4094cd; /* Изменяем цвет фона на синий */
     color: #FFFFFF;
-    height: 230px;
     padding: 20px;
     text-align: center;
 }

@@ -13,10 +13,12 @@ editor.setOptions({
   });
 
 
-var kek = document.querySelector(".top1m");
+/*var top1m = document.querySelector(".top1m");
 var calcus = $(window).height() - document.querySelector('header').offsetHeight
-kek.style.height = calcus+"px";
+top1m.style.height = calcus+"px";
 
+document.querySelector("#contentdiv").style.height=100+"%";
+document.querySelector(".splitter").style.height=100+"%";*/
 
 
 function dragElement(element, direction)
