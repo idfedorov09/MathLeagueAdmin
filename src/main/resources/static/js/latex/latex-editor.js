@@ -11,6 +11,7 @@ editor.setOptions({
     enableBasicAutocompletion: true,
     enableLiveAutocompletion: true
   });
+  editor.getSession().setUseWrapMode(true);
 
 
 /*var top1m = document.querySelector(".top1m");
@@ -26,6 +27,8 @@ function dragElement(element, direction)
     var   md; // remember mouse down info
     const first  = document.getElementById("code-content");
     const second = document.getElementById("result-content");
+
+    const underKek = document.querySelectorAll('.under-editor, .under-result');
 
     element.onmousedown = onMouseDown;
 
@@ -65,9 +68,17 @@ function dragElement(element, direction)
             if(md.offsetLeft + delta.x>=$(window).width()*percent && md.offsetLeft + delta.x<=$(window).width()*(1-percent))
             {
 
+            var oneP = (md.firstWidth + delta.x)
+            var twoP = (md.secondWidth - delta.x);
+            var summ = oneP+twoP;
+
             element.style.left = md.offsetLeft + delta.x + "px";
-            first.style.width = (md.firstWidth + delta.x) + "px";
-            second.style.width = (md.secondWidth - delta.x) + "px";
+            first.style.width = oneP*100/summ + "%";
+            second.style.width = twoP*100/summ + "%";
+
+            underKek[0].style.width = (md.firstWidth + delta.x) + "px";
+            underKek[1].style.width = (md.secondWidth - delta.x) + "px";
+
 
             editor.resize();
             }

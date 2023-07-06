@@ -10,6 +10,7 @@
     <script th:src="@{/js/main/main_anim1.js}"></script>
     <script src="https://kit.fontawesome.com/48c68970f2.js" crossorigin="anonymous"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+
 </head>
 <body>
 <header>
@@ -68,10 +69,15 @@
     <div class="main-col">
 
         <div class="my-panel">
-            Тут будут всякие кнопочки
+            <div class="under-editor">
+                <a>Введите условие задачи</a>
+            </div>
+            <div class="under-result">
+                <a>Введите условие задачи</a>
+            </div>
         </div>
 
-        <div class="my-container splitter">
+        <div class="my-container">
 
             <div id="code-content">
                 <div class="editor-container">
@@ -81,7 +87,11 @@
 
             <div id="separator" ></div>
 
-            <div id="result-content" ></div>
+            <div id="result-content">
+                <div class="latex-image">
+                    <img src="/images/test_image.jpg" alt="майнкрафт" >
+                </div>
+            </div>
 
         </div>
 
