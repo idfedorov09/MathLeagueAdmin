@@ -12,8 +12,4 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         return "errors/error";
     }
 
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
 }

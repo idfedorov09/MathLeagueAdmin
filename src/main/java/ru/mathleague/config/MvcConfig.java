@@ -23,6 +23,10 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/css/");
 
         registry
+                .addResourceHandler("/styles/font/**")
+                .addResourceLocations("classpath:/static/font/");
+
+        registry
                 .addResourceHandler("/js/unauth/**")
                 .addResourceLocations("classpath:/static/js/unauth/");
 

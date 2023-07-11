@@ -1,121 +1,69 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
     <title>Главная | MathLeagueAdmin</title>
-    <link rel="stylesheet" th:href="@{/css/main_style.css}" />
+
+    <th:block  th:insert="~{main-template :: styles}"></th:block>
+
     <link rel="stylesheet" th:href="@{/css/main/sections.css}" />
-    <link rel="stylesheet" th:href="@{/css/main/panel.css}" />
     <script th:src="@{/js/main/main_anim1.js}"></script>
-    <script src="https://kit.fontawesome.com/48c68970f2.js" crossorigin="anonymous"></script>
 
 </head>
+
 <body>
-<header>
-    <nav>
-        <div class="logo">
-            <img src="/images/logo.png" alt="MathLeagueAdmin Logo">
-        </div>
-        <ul class="navigation">
 
-            <li><a th:href="@{/}" class="tab-link">Главная</a></li>
+    <header th:insert="~{main-template :: header}"></header>
 
-            <li><a href="#" class="tab-link">Новости</a></li>
-
-            <li><a href="#" class="tab-link">Мероприятия</a></li>
-
-            <li class="dropdown">
-                <a class="tab-link">
-                    <span th:remove="tag" th:text="${#authentication.principal.username ?: '<strong>&lt;unknown user&gt;</strong>'}"></span>
-                </a>
-                <ul class="dropdown-menu">
-
-                    <li class="admin-type">
-                        <a href="/admin/users" th:if="${#authentication.principal.isAdmin}">
-                            <i class="fa-sharp fa-solid fa-users"></i> Пользователи
-                        </a>
-                    </li>
-
-                    <li class="admin-type">
-                        <a href="#" th:if="${#authentication.principal.isAdmin}">
-                            <i class="fa-solid fa-key"></i> Секретные ключи
-                        </a>
-                    </li>
-
-
-                    <li><a href="#"> <i class="fa-sharp fa-solid fa-gears"></i> Настройки</a></li>
-
-                    <li>
-                        <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
-                            <i class="fa-sharp fa-solid fa-right-from-bracket"></i> Выход
-                        </a>
-                        <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
-                    </li>
-                </ul>
-            </li>
-
-        </ul>
-    </nav>
-
-    <div class="hero">
-        <h1>MathLeagueAdmin</h1>
-        <p>Your ultimate admin solution for math competitions.</p>
-    </div>
-</header>
-
-<main>
-    <section id="section1" class="section">
-        <div class="section-container">
-            <div class="section-content">
-                <div class="section-description">
-                    <h2>Задачи недели</h2>
-                    <p>Меняйте распорядок, время и очередь публикации задач дня!</p>
-                    <a href="#" class="btn btn-animated">Перейти к задачам</a>
-                </div>
-                <div class="section-image">
-                    <img src="/images/task_example.jpg" alt="Пример задачи дня">
+    <main>
+        <section id="section1" class="section">
+            <div class="section-container">
+                <div class="section-content">
+                    <div class="section-description">
+                        <h2>Задачи недели</h2>
+                        <p>Меняйте распорядок, время и очередь публикации задач дня!</p>
+                        <a href="/time_problems" class="btn btn-animated">Перейти к задачам</a>
+                    </div>
+                    <div class="section-image">
+                        <img src="/images/task_example.jpg" alt="Пример задачи дня">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="section2" class="section even">
-        <div class="section-container">
-            <div class="section-content">
-                <div class="section-description">
-                    <h2>Minecraft сервер матлиги</h2>
-                    <p>Заходите, играйте и наслаждайтесь этой прекрасной игрой вместе с коллегами!</p>
-                    <a href="#" class="btn btn-animated">Играть!</a>
-                </div>
-                <div class="section-image">
-                    <img src="/images/test_image.jpg" alt="майнкрафт">
+        <section id="section2" class="section even">
+            <div class="section-container">
+                <div class="section-content">
+                    <div class="section-description">
+                        <h2>Minecraft сервер матлиги</h2>
+                        <p>Заходите, играйте и наслаждайтесь этой прекрасной игрой вместе с коллегами!</p>
+                        <a href="#" class="btn btn-animated">Играть!</a>
+                    </div>
+                    <div class="section-image">
+                        <img src="/images/test_image.jpg" alt="майнкрафт">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="section3" class="section">
-        <div class="section-container">
-            <div class="section-content">
-                <div class="section-description">
-                    <h2>Победы в реальном бою</h2>
-                    <p>Участвуйте в реальных боевых действиях на стороне наших спонсоров &ndash; ЧВК "Вагнер"!</p>
-                    <a href="#" class="btn btn-animated">В бой!</a>
-                </div>
-                <div class="section-image">
-                    <img src="/images/test_image2.jpg" alt="чвк ВАГНЕР">
+        <section id="section3" class="section">
+            <div class="section-container">
+                <div class="section-content">
+                    <div class="section-description">
+                        <h2>Победы в реальном бою</h2>
+                        <p>Участвуйте в реальных боевых действиях на стороне наших спонсоров &ndash; ЧВК "Вагнер"!</p>
+                        <a href="#" class="btn btn-animated">В бой!</a>
+                    </div>
+                    <div class="section-image">
+                        <img src="/images/test_image2.jpg" alt="чвк ВАГНЕР">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-</main>
-<footer>
-    <div id="footer" class="container">
-        <p>&copy; 2023 MathLeagueAdmin. All rights reserved.</p>
-        <p>Created by Fedorov Ivan</p>
-    </div>
-</footer>
+    <footer th:insert="~{main-template :: footer}"></footer>
 
 </body>
-</html>

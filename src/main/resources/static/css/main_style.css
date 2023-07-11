@@ -1,153 +1,207 @@
-/* Reset styles */
-html, body, header, main, footer {
+@font-face {
+    font-family: Gropled;
+    src: url('/font/gropled-bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: AvenirNextCyrRegular;
+    src: url('/font/avenirnextcyr-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
     margin: 0;
     padding: 0;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
+html, body{
+    height: 100%;
 }
-/* Global styles */
-body {
-    font-family: Arial, sans-serif;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 0.6fr 2.1fr 0.3fr;
-      gap: 0px 0px;
-      grid-auto-flow: row;
-      grid-template-areas:
-        "header header header"
-        "main main main"
-        "footer footer footer";
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: AvenirNextCyrRegular, sans-serif;
+}
+
+
+header, footer{
+    background-color: #4094cd;
+    color: white;
 }
 
 header{
-    grid-area: header;
+
+    height: auto;
+    display: flex;
+    flex-direction: column;
+
+    .bot-panel{
+
+        font-family: Gropled, sans-serif;
+        line-height: 1.6;
+
+        /*background-color: #1c2151;*/
+        flex: 0.4;
+        text-align: center;
+
+        .name{font-size: 48px;}
+
+        .desc{font-size: 24px; margin-bottom: 10px;}
+    }
+
+    .top-panel{
+        /*background-color: #2d3582;*/
+        flex: 0.6;
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.logo img{
+    margin: 5px 10px;
+    width: 80px;
+    height: 80px;
 }
 
 main{
-grid-area: main;
+    background-color: white;
+    flex-grow: 1;
 }
+
 footer{
-grid-area: footer;
+    height: auto;
+
+    padding: 2%;
+
+    .info{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
 
-/* Header styles */
-header {
-    background-color: #4094cd; /* Изменяем цвет фона на синий */
-    color: #FFFFFF;
-    padding: 20px;
-    text-align: center;
-}
+/*--------------NAVIGATION MENU-------------------*/
 
-nav {
-    display: flex;
-    justify-content: space-between;
+.top-panel{
+
+    min-height: 12vh;
     align-items: center;
-    margin-bottom: 20px;
+    margin-right: 1%;
+
+    .nav-panel{
+        margin-left: auto;
+    }
+
+    .navigation-main{
+        list-style: none;
+        flex-direction: row;
+        display: flex;
+    }
 }
 
-.logo {
-    width: 70px; /* Задайте ширину блока .logo по вашему выбору */
-    height: 70px; /* Задайте высоту блока .logo по вашему выбору */
-}
-
-.logo img {
-    max-width: 275%;
-    max-height: 275%;
-}
-
-
-ul {
-    list-style: none;
-    display: flex;
-}
-
-ul li {
-    margin-right: 20px;
-}
-
-ul li a {
-    color: #FFFFFF;
+.navigation-main  li a {
+    color: white;
     text-decoration: none;
-    transition: color 0.3s ease;
 }
 
-ul li a:hover {
+.navigation-main li a:hover {
     color: #FF478E;
 }
 
-.hero {
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 24px;
-    margin-bottom: 30px;
-}
-
-.btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #FF478E;
-    color: #FFFFFF;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #E63A7C;
-}
-
-/* Footer styles */
-footer {
-    background-color: #4094cd; /* Изменяем цвет фона на синий */
-    text-align: center;
-}
-
-footer p {
-    margin-bottom: 10px;
-}
-
-footer a {
-    color: #FFFFFF; /* Изменяем цвет текста на белый */
-    text-decoration: none;
+.nav-panel-link {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #333333;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
     transition: color 0.3s ease;
+    position: relative;
 }
 
-footer a:hover {
-    color: #ED1E79;
+.nav-panel-link::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
 }
 
-.footer-container {
-    color: #FFFFFF;
+.nav-panel-link:hover::before {
+    transform: scaleX(1);
 }
 
-#footer {
-    color: #FFFFFF;
-}
-
-#footer a {
-    color: #FFFFFF;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-#footer a:hover {
-    color: #ED1E79;
-}
+/*-------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------*/
+/*                      DROP DOWN STYLES                                          */
 
 
+.dropdown {
+    position: relative;
+  }
+
+  .dropdown-menu {
+      width: 100%;
+      position: absolute;
+      top: calc(100% + 11px); /* Расстояние между ссылкой и выпадающим меню */
+      left: 0;
+      z-index: 1;
+      display: none;
+      background-color: #FFFFFF;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      border-radius: 4px;
+      text-align: center;
+  }
+
+  .dropdown:hover .dropdown-menu {
+      display: block;
+  }
+
+  .dropdown-menu li {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+  }
+
+  .dropdown-menu li::after {
+    content: "";
+    position: absolute;
+    width: 80%; /* Ширина полоски */
+    height: 1px; /* Толщина полоски */
+    background-color: #CCCCCC; /* Цвет полоски */
+    bottom: 0;
+    left: 10%; /* Расположение полоски (10% отступ слева) */
+  }
+
+  .dropdown-menu li a {
+      display: block;
+      margin: 10px;
+      word-wrap: break-word;
+      width: 100%;
+      color: #333333;
+      text-decoration: none;
+      transition: color 0.3s ease;
+  }
+
+  .dropdown-menu li a:hover {
+    color: #FF478E;
+  }
+
+  .dropdown-menu li.admin-type a:hover {
+    color: #ff4d4d;
+  }
+
+
+/*-------------------------------------------------------------------------------*/

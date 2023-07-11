@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Главная | MathLeagueAdmin</title>
+
+    <th:block  th:insert="~{main-template :: styles}"></th:block>
+
+    <link rel="stylesheet" th:href="@{/css/tabstyle/tabstyle.css}" />
+
+</head>
+
+    <body>
+
+    <header th:insert="~{main-template :: header}"></header>
+
+    <main>
+        <div id="tab-div">
+            <table id="table" class="draggable-table">
+                <thead>
+                <tr>
+                    <th>Номер</th>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Дата публикации</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="">
+                    <td>0</td>
+                    <td>Задача на интеграл лебега</td>
+                    <td>Иван Федоров</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Супер сложная задача</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Самая сложная задача в мире</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Полезный интеграл</td>
+                    <td>Иван Федоров</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Бесполезный интеграл</td>
+                    <td>Иван Федоров</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Реклама майнкрафт сервера</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Реклама майнкрафт сервера</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Реклама майнкрафт сервера</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Реклама майнкрафт сервера</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Реклама майнкрафт сервера</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Реклама майнкрафт сервера</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Реклама майнкрафт сервера</td>
+                    <td>Андрей Поляков</td>
+                    <td>27.06.2023</td>
+                    <td>
+                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <button class="custom-btn btn-13">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <footer th:insert="~{main-template :: footer}"></footer>
+
+    </body>
+
+<script th:src="@{/js/tabstyle/tabstyle.js}"></script>
+</html>

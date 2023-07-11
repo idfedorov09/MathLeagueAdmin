@@ -1,77 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Главная | MathLeagueAdmin</title>
-    <link rel="stylesheet" th:href="@{/css/main_style.css}" />
-    <link rel="stylesheet" th:href="@{/css/main/sections.css}" />
-    <link rel="stylesheet" th:href="@{/css/main/panel.css}" />
-    <link rel="stylesheet" th:href="@{/css/admin/users.css}" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<html>
+
+<head>
+    <title>Главная | MathLeagueAdmin</title>
+
+    <th:block  th:insert="~{main-template :: styles}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/admin/users.css}" />
     <script th:src="@{/js/main/main_anim1.js}"></script>
     <script th:src="@{/js/admin/users.js}"></script>
-    <script src="https://kit.fontawesome.com/48c68970f2.js" crossorigin="anonymous"></script>
-
 </head>
-<body>
-<header>
-    <nav>
-        <div class="logo">
-            <img src="/images/logo.png" alt="MathLeagueAdmin Logo">
-        </div>
-        <ul class="navigation">
-
-            <li><a th:href="@{/}" class="tab-link">Главная</a></li>
-
-            <li><a href="#" class="tab-link">Новости</a></li>
-
-            <li><a href="#" class="tab-link">Мероприятия</a></li>
-
-            <li class="dropdown">
-                <a class="tab-link">
-                    <span th:remove="tag" th:text="${#authentication.principal.username ?: '<strong>&lt;unknown user&gt;</strong>'}"></span>
-                </a>
-                <ul class="dropdown-menu">
-
-                    <li class="admin-type">
-                        <a href="/admin/users" th:if="${#authentication.principal.isJustUser}">
-                            <i class="fa-sharp fa-solid fa-users"></i> Пользователи
-                        </a>
-                    </li>
-
-                    <li class="admin-type">
-                        <a href="#" th:if="${#authentication.principal.isJustUser}">
-                            <i class="fa-solid fa-key"></i> Секретные ключи
-                        </a>
-                    </li>
-
-
-                    <li><a href="#"> <i class="fa-sharp fa-solid fa-gears"></i> Настройки</a></li>
-
-                    <li>
-                        <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
-                            <i class="fa-sharp fa-solid fa-right-from-bracket"></i> Выход
-                        </a>
-                        <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
-                    </li>
-                </ul>
-            </li>
-
-        </ul>
-    </nav>
-
-    <div class="hero">
-        <h1>MathLeagueAdmin</h1>
-        <p>Your ultimate admin solution for math competitions.</p>
-    </div>
-</header>
 
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-<main>
+<body>
 
+<header th:insert="~{main-template :: header}"></header>
+
+<main>
     <section id="user-list" class="section">
         <div class="users-container">
             <h2>Список пользователей</h2>
@@ -110,7 +58,7 @@
                                         th:attr="data-user-id=${user.id},data-username=${user.username}, data-user-nick=${user.user_nick}, data-telegram=${user.telegramUsername},data-roles=${user.roles}"><i class="fas fa-edit"></i></button>
 
                                 <button class="action-btn delete-btn"  th:attr="data-user-id=${user.id}" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                                </td>
+                            </td>
                         </tr>
                     </th:block>
                     </tbody>
@@ -151,16 +99,8 @@
             <button type="submit" class="submit-btn">Сохранить</button>
         </form>
     </div>
-
 </main>
 
-<footer>
-    <div id="footer" class="container">
-        <p>&copy; 2023 MathLeagueAdmin. All rights reserved.</p>
-        <p>Created by Fedorov Ivan</p>
-    </div>
-</footer>
+<footer th:insert="~{main-template :: footer}"></footer>
 
 </body>
-
-</html>

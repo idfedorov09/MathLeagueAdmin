@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html>
+<head>
+    <title>Главная | MathLeagueAdmin</title>
+
+    <th:block th:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/main_style.css}" />
+        <script src="https://kit.fontawesome.com/48c68970f2.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </th:block>
+
+</head>
+
+<body>
+
+<header th:fragment="header">
+    <div class="top-panel">
+
+        <div class="logo">
+            <img th:src="@{/logo.png}" alt="MathLeague">
+        </div>
+
+        <div class="nav-panel">
+            <ul class="navigation-main">
+                <li><a th:href="@{/}" class="nav-panel-link">Главная</a></li>
+
+                <li><a href="#" class="nav-panel-link">Новости</a></li>
+
+                <li><a href="#" class="nav-panel-link">Мероприятия</a></li>
+
+                <li class="dropdown">
+                    <a class="nav-panel-link">
+                        <span th:remove="tag" th:text="${#authentication.principal.username ?: '<strong>&lt;unknown user&gt;</strong>'}"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+
+                        <li class="admin-type">
+                            <a href="/admin/users" th:if="${#authentication.principal.isAdmin}">
+                                <i class="fa-sharp fa-solid fa-users"></i> Пользователи
+                            </a>
+                        </li>
+
+                        <li class="admin-type">
+                            <a href="#" th:if="${#authentication.principal.isAdmin}">
+                                <i class="fa-solid fa-key"></i> Секретные ключи
+                            </a>
+                        </li>
+
+
+                        <li><a href="#"> <i class="fa-sharp fa-solid fa-gears"></i> Настройки</a></li>
+
+                        <li>
+                            <a href="/logout" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
+                                <i class="fa-sharp fa-solid fa-right-from-bracket"></i> Выход
+                            </a>
+                            <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+
+
+    </div>
+
+    <div class="bot-panel">
+        <h1 class="name">MathLeagueAdmin</h1>
+        <p class="desc">Your ultimate admin solution for math competitions.</p>
+    </div>
+
+</header>
+
+<main th:fragment="content">
+
+</main>
+
+<footer th:fragment="footer">
+    <div class="info">
+        <p>© 2023 MathLeagueAdmin. All rights reserved.</p>
+        <p>Created by Fedorov Ivan</p>
+    </div>
+</footer>
+
+</body>
+</html>
