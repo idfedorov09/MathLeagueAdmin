@@ -8,6 +8,7 @@
 
     <th:block  th:insert="~{main-template :: styles}"></th:block>
     <link rel="stylesheet" th:href="@{/css/latex/latex.css}" />
+    <link rel="stylesheet" th:href="@{/css/latex/refresh-button.css}" />
     <script th:src="@{/js/main/main_anim1.js}"></script>
 
 
@@ -22,7 +23,7 @@
 
         <div class="my-panel" id="tabbtop">
             <div class="name">
-                <p id="taskname">Название задачи</p>
+                <p id="taskname" th:text="${problem.title}">Название задачи</p>
                 <button id="edit-name-btn" onclick="toggleEditMode()">
                     <i class="fas fa-edit"></i>
                 </button>
@@ -42,7 +43,7 @@
 
             <div id="code-content">
                 <div class="editor-container">
-                    <div id="editor">// Program to reverse a string</div>
+                    <div id="editor" th:text="${problem.latexCode}">// Program to reverse a string</div>
                 </div>
             </div>
 
@@ -70,6 +71,7 @@
 
 <script th:src="@{/js/latex/latex-editor.js}"></script>
 <script th:src="@{/js/latex/name-editor.js}"></script>
+<script th:src="@{/js/latex/proj-refresh.js}"></script>
 
 </html>
 

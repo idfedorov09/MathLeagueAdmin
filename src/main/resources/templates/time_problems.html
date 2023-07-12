@@ -10,6 +10,9 @@
 
 </head>
 
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <body>
 
     <header th:insert="~{main-template :: header}"></header>
@@ -27,133 +30,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="">
-                    <td>0</td>
-                    <td>Задача на интеграл лебега</td>
-                    <td>Иван Федоров</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Супер сложная задача</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Самая сложная задача в мире</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Полезный интеграл</td>
-                    <td>Иван Федоров</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Бесполезный интеграл</td>
-                    <td>Иван Федоров</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Реклама майнкрафт сервера</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Реклама майнкрафт сервера</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Реклама майнкрафт сервера</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Реклама майнкрафт сервера</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Реклама майнкрафт сервера</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Реклама майнкрафт сервера</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Реклама майнкрафт сервера</td>
-                    <td>Андрей Поляков</td>
-                    <td>27.06.2023</td>
-                    <td>
-                        <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-
+                <th:block th:each="problem : ${allProblems}">
+                    <tr class="">
+                        <td th:text="${problem.priority}"></td>
+                        <td th:text="${problem.title}"></td>
+                        <td th:text="${problem.author.user_nick}"></td>
+                        <td>27.06.2023</td>
+                        <td>
+                            <button class="action-btn edit-btn" title="Редактировать" type="button" ><i class="fas fa-edit"></i></button>
+                            <button class="action-btn delete-btn" th:attr="data-problem-id=${problem.id}" title="Удалить"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                </th:block>
                 </tbody>
             </table>
         </div>
     </main>
 
-    <button class="custom-btn btn-13">
+    <button class="custom-btn btn-13" onclick="window.location='new-problem';">
         <i class="fa-solid fa-plus"></i>
     </button>
 

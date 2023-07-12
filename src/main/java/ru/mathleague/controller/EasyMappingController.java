@@ -6,12 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class EasyMappingController {
 
-    @GetMapping("/time_problems")
-    public String timeProblems(){
-        return "time_problems";
-    }
-
-    @GetMapping("/test")
+   // @GetMapping("/test")
     public String test(){
         return "test";
     }

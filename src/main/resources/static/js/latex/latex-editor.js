@@ -13,6 +13,8 @@ editor.setOptions({
   });
   editor.getSession().setUseWrapMode(true);
 
+//editor.session.setValue();
+console.log(editorElem.textContent)
 
 /*var top1m = document.querySelector(".top1m");
 var calcus = $(window).height() - document.querySelector('header').offsetHeight

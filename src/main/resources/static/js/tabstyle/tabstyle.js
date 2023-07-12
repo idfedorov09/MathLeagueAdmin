@@ -157,3 +157,30 @@
 
   init();
 })();
+
+
+
+$(document).ready(function() {
+    $('.action-btn.delete-btn').click(function(){
+
+            console.log("ПИЗДА!");
+            var problemId = $(this).data('problem-id');
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "/weekly-problems/delete/"+problemId, true);
+            xhr.setRequestHeader(header, token);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            var raw = this;
+            xhr.onload = function() {
+              if (xhr.status === 200) {
+                 $(raw).closest("tr").remove();
+              } else {
+                console.error("Error on removing");
+              }
+            };
+            xhr.send();
+    });
+});

@@ -1,0 +1,69 @@
+package ru.mathleague.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.mathleague.entity.User;
+import ru.mathleague.entity.WeeklyTask;
+import ru.mathleague.repository.UserRepository;
+import ru.mathleague.repository.WeeklyTaskRepository;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/weekly-problems")
+public class WeeklyProblemsController {
+
+    @Autowired
+    WeeklyTaskRepository weeklyTaskRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @GetMapping("list")
+    public String problemsList(Model model){
+        List<WeeklyTask> allProblems = weeklyTaskRepository.findAllByOrderByPriority();
+        model.addAttribute("allProblems", allProblems);
+        return "time_problems";
+    }
+
+    @GetMapping("new-problem")
+    public String createProblem(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User author = (User)authentication.getPrincipal();
+        WeeklyTask weeklyTask = new WeeklyTask(weeklyTaskRepository.count(), author);
+        weeklyTaskRepository.save(weeklyTask);
+
+        return "redirect:/weekly-problems/"+weeklyTask.getId();
+    }
+
+    @GetMapping("{problem-id}")
+    public String editProblem(@PathVariable("problem-id") Long problemId, Model model){
+
+        WeeklyTask weeklyTask = weeklyTaskRepository.findById(problemId);
+        model.addAttribute("problem", weeklyTask);
+
+        return "edit_problem";
+    }
+
+    @PostMapping("delete/{problem-id}")
+    @Transactional
+    public ResponseEntity<String> deleteProblem(@PathVariable("problem-id") Long problemId){
+
+        WeeklyTask taskToRemove = weeklyTaskRepository.findById(problemId);
+
+        if(taskToRemove!=null) {
+            weeklyTaskRepository.delete(taskToRemove);
+        }
+        return ResponseEntity.ok("Problem deleted successfully");
+    }
+
+}
