@@ -27,7 +27,11 @@ public class User implements UserDetails {
     private String telegramUsername;
     private boolean online;
 
+    private boolean isActive;
+
     private Date lastRequest;
+
+    private Date updSessionDate;
 
     private boolean isLoggedOut;
 
@@ -139,9 +143,30 @@ public class User implements UserDetails {
         return true;
     }
 
+    public Date getUpdSessionDate() {
+        return updSessionDate;
+    }
+
+    public void setUpdSessionDate(Date updSessionDate) {
+        this.updSessionDate = updSessionDate;
+    }
+
     @Override
     public boolean isEnabled() {
-        return true;
+        return isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    @PostLoad
+    private void initializeNewField() {
+        this.isActive = true;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public boolean isAdmin() {
@@ -150,5 +175,15 @@ public class User implements UserDetails {
 
     public boolean isJustUser() {
         return roles.contains(Role.USER) && roles.size()==1;
+    }
+
+    public void disable(){
+        this.online = false;
+        this.roles.clear();
+        this.lastRequest.setTime(0);
+        this.username = this.username+"$!DELETED!$"+this.username.hashCode();
+        this.user_nick = "DELETED";
+        this.isLoggedOut = true;
+        this.isActive = false;
     }
 }

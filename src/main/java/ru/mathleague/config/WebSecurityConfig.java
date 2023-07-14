@@ -7,11 +7,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import ru.mathleague.entity.util.Role;
 import ru.mathleague.repository.UserRepository;
 import ru.mathleague.service.UserService;
 import ru.mathleague.util.UpdateLastRequestFilter;
@@ -26,10 +24,11 @@ public class WebSecurityConfig {
     @Autowired
     private UserRepository userRepository;
 
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-    }
+    @Autowired
+    private UpdateLastRequestFilter updateLastRequestFilter;
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -50,9 +49,12 @@ public class WebSecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement
                                 .maximumSessions(1)
-                                .sessionRegistry(sessionRegistry())
+                                .sessionRegistry(sessionRegistry)
                 )
-                .addFilterAfter(new UpdateLastRequestFilter(userRepository), BasicAuthenticationFilter.class);
+                .addFilterAfter(updateLastRequestFilter, BasicAuthenticationFilter.class)
+                .sessionManagement(session -> session
+                        .invalidSessionUrl("/")
+                );
         return http.build();
     }
 
