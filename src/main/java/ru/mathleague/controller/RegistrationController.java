@@ -1,5 +1,7 @@
 package ru.mathleague.controller;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import ru.mathleague.repository.SecretKeyRepository;
 import ru.mathleague.repository.UserRepository;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 @Controller
@@ -46,7 +49,8 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(User user,
                           RedirectAttributesModelMap redirectModel, Model model,
-                          @RequestParam("secretKey") String secretKey)
+                          @RequestParam("secretKey") String secretKey,
+                          HttpServletRequest request)
     {
         User userFromDatabase = userRepository.findByUsername(user.getUsername());
 
@@ -61,7 +65,9 @@ public class RegistrationController {
             return "registration";
         }
 
+        user.setActive(true);
         user.setOnline(true);
+        user.setLastRequest(new Date());
         user.setRoles(Collections.singleton(Role.USER));
 
         //String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
@@ -69,10 +75,13 @@ public class RegistrationController {
 
         userRepository.save(user);
 
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("password", user.getPassword());
+        try {
+                request.login(user.getUsername(), user.getPassword());
+        }catch (ServletException e){
+            System.out.println("LOGIN ERROR: "+e);
+        }
 
-        return "forward:/login";
-        //return "login";
+
+        return "redirect:/";
     }
 }

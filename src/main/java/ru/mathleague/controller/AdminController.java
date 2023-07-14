@@ -74,8 +74,21 @@ public class AdminController {
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
 
         User user = userRepository.findById(userId);
+
+
+        if(user==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
         sessionUtil.expireUserSessions(user.getUsername());
+
+        if(!user.isActive()){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User is already deleted");
+        }
+
         user.disable();
+        user.setUpdSessionDate(new Date());
+
         userRepository.save(user);
 
         return ResponseEntity.ok("User deleted successfully");

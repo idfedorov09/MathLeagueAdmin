@@ -1,11 +1,13 @@
 package ru.mathleague.entity;
 
 import jakarta.persistence.*;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.mathleague.entity.util.Role;
 import ru.mathleague.entity.util.UserUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -90,7 +92,7 @@ public class User implements UserDetails {
     }
 
     public void setOnline(boolean online) {
-        if(this.isLoggedOut){
+        if(this.isLoggedOut || lastRequest==null){
             this.online = false;
         }
         else{
@@ -160,11 +162,6 @@ public class User implements UserDetails {
         return isActive;
     }
 
-    @PostLoad
-    private void initializeNewField() {
-        this.isActive = true;
-    }
-
     public void setActive(boolean active) {
         isActive = active;
     }
@@ -180,10 +177,27 @@ public class User implements UserDetails {
     public void disable(){
         this.online = false;
         this.roles.clear();
-        this.lastRequest.setTime(0);
-        this.username = this.username+"$!DELETED!$"+this.username.hashCode();
+        this.lastRequest = new Date(); //now this value is removing date
+        this.username = generateUsername();
         this.user_nick = "DELETED";
         this.isLoggedOut = true;
         this.isActive = false;
+    }
+
+    private String generateUsername(){
+
+        String res = "#!DELETED::";
+        Date date = new Date();
+        String s = (new SimpleDateFormat("MM/dd/yyyy HH:mm:ss")).format(date);
+        res+=DigestUtils.md5Hex(s);
+
+        if(this.username!=null){
+            res+="::"+username;
+        }
+        else{
+            res+="::#!UNKNOW_USER";
+        }
+
+        return res;
     }
 }

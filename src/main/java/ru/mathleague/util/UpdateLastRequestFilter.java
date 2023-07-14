@@ -8,21 +8,15 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.mathleague.controller.SessionUtil;
 import ru.mathleague.entity.User;
-import ru.mathleague.entity.util.UserUtil;
 import ru.mathleague.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.Date;
-
 @Component
 @Configurable
 public class UpdateLastRequestFilter extends OncePerRequestFilter {
@@ -39,22 +33,20 @@ public class UpdateLastRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
 
             if (principal instanceof User) {
-                /*User user = (User) principal;
-                user.setLastRequest(new Date());
-                userRepository.save(user);*/
 
                 User user = userRepository.findByUsername(((User) principal).getUsername());
 
-                if(user==null){
-                    HttpSession httpSession = request.getSession(true);
+                if(user==null || !user.isActive()){
+                    HttpSession httpSession = request.getSession(false);
                     httpSession.invalidate();
-                    filterChain.doFilter(request, response);
                     return;
                 }
 
@@ -77,5 +69,6 @@ public class UpdateLastRequestFilter extends OncePerRequestFilter {
             sessionUtil.updateSession(session, user.getUsername(), true);
         }
     }
+
 }
 
