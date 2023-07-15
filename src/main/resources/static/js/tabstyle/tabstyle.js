@@ -163,7 +163,6 @@
 $(document).ready(function() {
     $('.action-btn.delete-btn').click(function(){
 
-            console.log("ПИЗДА!");
             var problemId = $(this).data('problem-id');
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
@@ -183,4 +182,9 @@ $(document).ready(function() {
             };
             xhr.send();
     });
+
+    $('.action-btn.edit-btn').click(function(){
+                var problemId = $(this).data('problem-id');
+                window.location.href = "/weekly-problems/"+problemId;
+        });
 });

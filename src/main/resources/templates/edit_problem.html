@@ -14,6 +14,10 @@
 
 </head>
 
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="taskId" th:content="${problem.id}" />
+
 <body>
 
 <header th:insert="~{main-template :: header}"></header>

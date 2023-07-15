@@ -12,6 +12,7 @@ function toggleEditMode() {
 
     // Пример кода для сохранения изменений:
     var updatedText = textElement.innerText;
+    sendNameToServer(updatedText);
     // Отправить updatedText на сервер для сохранения
 
   } else {
@@ -29,3 +30,29 @@ textElement.addEventListener("keydown", function(event) {
         toggleEditMode(); // Вызываем функцию переключения режима редактирования
       }
     });
+
+
+function sendNameToServer(taskName){
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    var taskId = $("meta[id='taskId']").attr("content");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "save-title?id="+taskId, true);
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log("ok!");
+        }
+        else {
+            console.error("Error on saving name.");
+        }
+    };
+    xhr.send(taskName);
+    
+
+
+}

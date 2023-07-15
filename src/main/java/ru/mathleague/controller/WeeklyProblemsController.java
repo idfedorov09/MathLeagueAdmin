@@ -1,16 +1,14 @@
 package ru.mathleague.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.mathleague.entity.User;
 import ru.mathleague.entity.WeeklyTask;
 import ru.mathleague.repository.UserRepository;
@@ -64,6 +62,21 @@ public class WeeklyProblemsController {
             weeklyTaskRepository.delete(taskToRemove);
         }
         return ResponseEntity.ok("Problem deleted successfully");
+    }
+
+    @PostMapping("save-title")
+    public ResponseEntity<String> saveProblemTitle(@RequestParam Long id, @RequestBody String newTitle){
+
+        WeeklyTask task = weeklyTaskRepository.findById(id);
+
+        if(task==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problem not found");
+        }
+
+        task.setTitle(newTitle);
+        weeklyTaskRepository.save(task);
+
+        return ResponseEntity.ok("Changed problem title with id="+id);
     }
 
 }
