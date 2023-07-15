@@ -13,8 +13,9 @@ editor.setOptions({
   });
   editor.getSession().setUseWrapMode(true);
 
-//editor.session.setValue();
-console.log(editorElem.textContent)
+editor.getSession().on('change', function() {
+  saveLatexCode()
+});
 
 /*var top1m = document.querySelector(".top1m");
 var calcus = $(window).height() - document.querySelector('header').offsetHeight
@@ -90,3 +91,25 @@ function dragElement(element, direction)
 
 
 dragElement( document.getElementById("separator"), "H" );
+
+function saveLatexCode(){
+    var texCode = editor.getSession().getValue();
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    var taskId = $("meta[id='taskId']").attr("content");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "save-texcode?id="+taskId, true);
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+
+        }
+        else {
+            console.error("Error on saving latex code.");
+        }
+    };
+    xhr.send(texCode);
+}

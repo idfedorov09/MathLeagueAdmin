@@ -79,4 +79,19 @@ public class WeeklyProblemsController {
         return ResponseEntity.ok("Changed problem title with id="+id);
     }
 
+    @PostMapping("save-texcode")
+    public ResponseEntity<String> saveProblemTexcode(@RequestParam Long id, @RequestBody String newCode){
+
+        WeeklyTask task = weeklyTaskRepository.findById(id);
+
+        if(task==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problem not found");
+        }
+
+        task.setLatexCode(newCode);
+        weeklyTaskRepository.save(task);
+
+        return ResponseEntity.ok("Changed problem tex code with id="+id);
+    }
+
 }

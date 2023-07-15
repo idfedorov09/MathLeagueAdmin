@@ -19,6 +19,7 @@ public class WeeklyTask {
 
     private String title;
 
+    @Column(columnDefinition="text")
     private String latexCode;
 
     public WeeklyTask(){}
