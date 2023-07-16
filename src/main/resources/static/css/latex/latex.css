@@ -71,6 +71,7 @@ height: 100%;
 }
 
 .under-result{
+    display: flex;
     width: 50%;
 }
 

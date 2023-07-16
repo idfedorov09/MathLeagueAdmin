@@ -16,7 +16,9 @@ repositories {
 }
 
 dependencies {
+	implementation 'commons-io:commons-io:2.13.0'
 	implementation 'commons-codec:commons-codec:1.16.0'
+	implementation 'org.apache.pdfbox:pdfbox-tools:2.0.29'
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'

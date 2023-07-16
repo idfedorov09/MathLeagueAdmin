@@ -1,0 +1,46 @@
+.update-button {
+    height: 100%;
+
+    margin-left: auto;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    background-color: #FF478E; /* Цвет кнопки */
+    color: #fff; /* Цвет текста на кнопке */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.update-button:hover {
+    background-color: #FF60A7; /* Цвет кнопки при наведении */
+    transform: scale(1.01); /* Небольшое увеличение при наведении */
+}
+
+.update-button:active {
+    background-color: #FF3670; /* Цвет кнопки при нажатии */
+    transform: scale(0.98); /* Небольшое уменьшение при нажатии */
+}
+
+.loader {
+    margin-right: 5px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 7px;
+    height: 7px;
+    animation: spin 2s linear infinite;
+    display: none;
+    margin-left: 5px;
+}
+
+/* Анимация для крутящейся иконки */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
