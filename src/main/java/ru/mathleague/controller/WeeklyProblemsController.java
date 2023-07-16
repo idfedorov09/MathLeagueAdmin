@@ -103,8 +103,6 @@ public class WeeklyProblemsController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        System.out.println("Compile daily task with id="+problemId);
-
         ProcessBuilder processBuilder = new ProcessBuilder("xelatex", "main.tex");
         processBuilder.directory(new File(currentDir));
         int exitCode = 0;
@@ -120,7 +118,7 @@ public class WeeklyProblemsController {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                 System.out.println(line);
+                //System.out.println(line);
                 if(line.startsWith("! ")){
                     errorMessage = line;
                 }
@@ -141,8 +139,6 @@ public class WeeklyProblemsController {
         }catch (IOException | InterruptedException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        System.out.println(problemId+" compiled with code "+exitCode);
 
         if (exitCode != 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

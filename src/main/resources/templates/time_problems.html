@@ -35,7 +35,7 @@
                         <td th:text="${problem.priority}"></td>
                         <td th:text="${problem.title}"></td>
                         <td th:text="${problem.author.user_nick}"></td>
-                        <td>27.06.2023</td>
+                        <td th:text="${problem.postDateStr}"></td>
                         <td>
                             <button class="action-btn edit-btn" th:attr="data-problem-id=${problem.id}" title="Редактировать" type="button"><i class="fas fa-edit"></i></button>
                             <button class="action-btn delete-btn" th:attr="data-problem-id=${problem.id}" title="Удалить"><i class="fas fa-trash-alt"></i></button>
