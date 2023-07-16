@@ -83,19 +83,16 @@ public class WeeklyTask {
     public int[] postDate(long count) {
         ZoneId moscowZone = ZoneId.of("Europe/Moscow");
         LocalDateTime moscowNow = LocalDateTime.now(moscowZone);
-
-        // Проверяем, что время в Московском времени больше или равно 09:00
-        if (moscowNow.getHour() >= 9) {
-            count++;
-        }
-
         LocalDate today = moscowNow.toLocalDate();
+
         DayOfWeek currentDayOfWeek = today.getDayOfWeek();
         int daysUntilNextSunday = DayOfWeek.SUNDAY.getValue() - currentDayOfWeek.getValue();
-        if (daysUntilNextSunday <= 0) {
+
+        if(daysUntilNextSunday==0 && moscowNow.getHour()>=9){
             daysUntilNextSunday += 7;
         }
-        long totalDaysToAdd = daysUntilNextSunday + (count - 1) * 7;
+
+        long totalDaysToAdd = daysUntilNextSunday + count * 7;
         LocalDate nextSunday = today.plusDays(totalDaysToAdd);
 
         int[] res = new int[3];
