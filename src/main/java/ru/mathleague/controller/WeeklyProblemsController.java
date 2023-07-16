@@ -20,12 +20,15 @@ import ru.mathleague.repository.UserRepository;
 import ru.mathleague.repository.WeeklyTaskRepository;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/weekly-problems")
@@ -84,20 +87,20 @@ public class WeeklyProblemsController {
     }
 
     @PostMapping("refresh")
-    public ResponseEntity<String> refreshProblem(@RequestParam("id") Long problemId)  {
+    public ResponseEntity<Map<String, Object>> refreshProblem(@RequestParam("id") Long problemId)  {
 
         String currentDir = PROBLEMS_DIR+problemId;
         WeeklyTask curTask = weeklyTaskRepository.findById(problemId);
 
         if(curTask==null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Problem not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         String problemCode = curTask.getLatexCode();
         try {
             FileUtils.writeStringToFile(new File(currentDir+"/Problems/1.tex"), problemCode, "UTF-8");
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error with writing problem to file.");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         System.out.println("Compile daily task with id="+problemId);
@@ -106,26 +109,64 @@ public class WeeklyProblemsController {
         processBuilder.directory(new File(currentDir));
         int exitCode = 0;
 
+        String errorMessage = "not defined";
+        int errorLine;
+
         try {
             Process process = processBuilder.start();
+
+            InputStream inputStream = process.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                 System.out.println(line);
+                if(line.startsWith("! ")){
+                    errorMessage = line;
+                }
+                if(line.startsWith("l.")){
+                    errorLine = extractNumber(line);
+                    process.destroy();
+
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("errorLine", errorLine);
+                    response.put("message", errorMessage);
+
+                    return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+                }
+            }
+
             exitCode = process.waitFor();
+
         }catch (IOException | InterruptedException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error on waiting process builder!");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         System.out.println(problemId+" compiled with code "+exitCode);
 
         if (exitCode != 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error on compiling!");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
             generateImageFromPdf(currentDir+"/main.pdf", currentDir+"/image.jpg", DEFAULT_DPI);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error on create img from pdf!");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.ok("successful compiled");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public static int extractNumber(String inputString) {
+        Pattern pattern = Pattern.compile("l\\.(\\d+)");
+        Matcher matcher = pattern.matcher(inputString);
+
+        if (matcher.find()) {
+            String numberStr = matcher.group(1);
+            return Integer.parseInt(numberStr);
+        } else {
+            throw new IllegalArgumentException("parsing error");
+        }
     }
 
     private static void generateImageFromPdf(String in, String out, int dpi) throws IOException {

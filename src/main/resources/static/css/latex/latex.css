@@ -105,3 +105,11 @@ align-items: center;
 #edit-name-btn:hover {
     color: #ff8435;
 }
+
+
+/*-------------------ACE EDITOR-------------------*/
+.myMarker {
+  position:absolute;
+  background:rgba(219, 55, 55, 0.5);
+  z-index:20
+}

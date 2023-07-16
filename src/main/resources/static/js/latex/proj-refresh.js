@@ -1,4 +1,8 @@
+hasError = false;
+
+
 function performPostRequest() {
+
     var updateButton = document.querySelector('.update-button');
     var loader = updateButton.querySelector('.loader');
     var imageElement = document.getElementById('resultImage');
@@ -17,8 +21,15 @@ function performPostRequest() {
              [header]: token
         }
     }).then(function (response) {
+        stat = response.status;
+        if(stat==406) return response.json();
         return response;
-    }).then(function () {
+    }).then(function (data) {
+
+        if (stat === 406) {
+           highlightErrorLine(data.errorLine, data.message);
+        }
+
         updateButton.disabled = false;
         loader.style.display = 'none';
 
@@ -40,3 +51,30 @@ function changeImageSrc(problemId) {
 }
 
 changeImageSrc($("meta[id='taskId']").attr("content"));
+
+function highlightErrorLine(lineNumber, errorMessage) {
+  editor.gotoLine(lineNumber, 0, true); // Переходим на указанную строку и выделяем её
+
+  // Добавляем маркер на указанную строку с ошибкой
+  editor.getSession().setAnnotations([{
+    row: lineNumber - 1,
+    text: errorMessage,
+    type: "error"
+  }]);
+
+  var Range = ace.require('ace/range').Range;
+  editor.session.addMarker(new Range(lineNumber-1, 0, lineNumber-1, 1), "myMarker", "fullLine");
+  hasError = true;
+}
+
+function clearErrorHighlight() {
+  var markers = editor.session.getMarkers(false);
+  for (var markerId in markers) {
+    if (markers[markerId].clazz === "myMarker") {
+      editor.session.removeMarker(markerId);
+    }
+  }
+  editor.getSession().clearAnnotations();
+  hasError = false;
+}
+

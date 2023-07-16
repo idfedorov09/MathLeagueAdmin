@@ -112,4 +112,7 @@ function saveLatexCode(){
         }
     };
     xhr.send(texCode);
+    if(hasError){
+        clearErrorHighlight();
+    }
 }
