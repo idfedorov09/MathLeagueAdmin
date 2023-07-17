@@ -84,7 +84,7 @@ public class WeeklyProblemsController {
     @GetMapping("image/{id}")
     @ResponseBody
     public byte[] getImage(@PathVariable Long id) throws IOException {
-        String imagePath = PROBLEMS_DIR + id +"/image.jpg"; // Предполагаем, что у вас используется расширение .jpg
+        String imagePath = PROBLEMS_DIR + id +"/image.jpg";
         Path image = Paths.get(imagePath);
         return Files.readAllBytes(image);
     }
@@ -105,6 +105,9 @@ public class WeeklyProblemsController {
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+        setDate(10, curTask);
+
 
         ProcessBuilder processBuilder = new ProcessBuilder("xelatex", "main.tex");
         processBuilder.directory(new File(currentDir));
@@ -156,7 +159,20 @@ public class WeeklyProblemsController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public static int extractNumber(String inputString) {
+    private void setDate(int lineNumber, WeeklyTask weeklyTask){
+        File file = new File(PROBLEMS_DIR+weeklyTask.getId()+"/main.tex");
+        var dateArray = weeklyTask.postDate();
+        String date = "\\task[\\day = %d \\month = %d \\year = %d]{1}".formatted(dateArray[0], dateArray[1], dateArray[2]);
+        try {
+            List<String> lines = FileUtils.readLines(file, "UTF-8");
+            lines.set(lineNumber - 1, date);
+            FileUtils.writeLines(file, "UTF-8", lines);
+        } catch (IOException e) {
+            System.out.println("Writing latex date (weekly task) error: " + e);
+        }
+    }
+
+    private static int extractNumber(String inputString) {
         Pattern pattern = Pattern.compile("l\\.(\\d+)");
         Matcher matcher = pattern.matcher(inputString);
 

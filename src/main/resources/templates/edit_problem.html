@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>Главная | MathLeagueAdmin</title>
+    <title th:text="${problem.title}"></title>
 
     <th:block  th:insert="~{main-template :: styles}"></th:block>
     <link rel="stylesheet" th:href="@{/css/latex/latex.css}" />
@@ -36,10 +36,10 @@
 
         <div class="my-panel">
             <div class="under-editor">
-                <a>Введите условие задачи</a>
+                <a>Условие задачи</a>
             </div>
             <div class="under-result">
-                <a>Введите условие задачи</a>
+                <a>Предпросмотр</a>
                 <button class="update-button" onclick="performPostRequest()">
                     <span class="loader"></span>
                     обновить
