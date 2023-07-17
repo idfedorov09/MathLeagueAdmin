@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+cd ..
+
 #----------------ENVIROMENT VARIABLES!!----------------#
 server=$STAS_SERVER
 passphrase=$STAS_PASSPHRASE
@@ -8,11 +10,11 @@ passphrase=$STAS_PASSPHRASE
 #----------------FILE NAMES----------------#
 remote_script_path="~/deployServer.sh"
 key_path="$STAS_SSH"
-libs_path="../build/libs/"
+libs_path="./build/libs/"
 
 
 #----------------Gradle path----------------#
-GRADLE_PATH="../gradlew"
+GRADLE_PATH=./gradlew
 BUILD_TASK=build
 
 
