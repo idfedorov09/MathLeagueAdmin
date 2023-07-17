@@ -12,8 +12,9 @@ libs_path="../build/libs/"
 
 
 #----------------Gradle path----------------#
-GRADLE_PATH=../gradlew
+GRADLE_PATH="../gradlew"
 BUILD_TASK=build
+
 
 if [ ! -f "$GRADLE_PATH" ]; then
     echo "ERROR: Gradle not found"
@@ -28,7 +29,7 @@ filename="$libs_path$jar_file"
 if [ -n "$jar_file" ]; then
   echo "OK, jar has been created"
 else
-  echo "ERROR: can't find jar file in path ./build/libs"
+  echo "ERROR: can't find jar file in path $libs_path"
   exit 1
 fi
 

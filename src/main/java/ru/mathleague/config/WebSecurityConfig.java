@@ -38,7 +38,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/css/unauth/**").permitAll()
                         .requestMatchers("/js/unauth/**").permitAll()
                         .requestMatchers("/images/unauth/**", "/favicon.ico").permitAll()
-                        //.requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
