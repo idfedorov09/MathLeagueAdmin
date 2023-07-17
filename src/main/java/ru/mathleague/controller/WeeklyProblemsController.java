@@ -8,6 +8,7 @@ import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import ru.mathleague.entity.User;
 import ru.mathleague.entity.WeeklyTask;
 import ru.mathleague.repository.UserRepository;
 import ru.mathleague.repository.WeeklyTaskRepository;
+import ru.mathleague.util.ProblemSender;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -42,6 +44,9 @@ public class WeeklyProblemsController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ProblemSender problemSender;
 
     @GetMapping("list")
     public String problemsList(Model model){
@@ -246,6 +251,29 @@ public class WeeklyProblemsController {
         weeklyTaskRepository.save(task);
 
         return ResponseEntity.ok("Changed problem tex code with id="+id);
+    }
+
+    private void sendProblemToChat(long problemId){
+        problemSender.sendPhotoToTelegram(PROBLEMS_DIR+problemId+"/image.jpg", "#ЗадачаНедели");
+    }
+
+    @Scheduled(cron = "0 0 9 ? * SUN", zone = "Europe/Moscow")  //every sunday 9am (on Moscow)
+    //@Scheduled(cron = "0 */2 * * * *", zone = "Europe/Moscow") //every 2 minutes
+    public void sendTask() {
+        WeeklyTask problemToSend = weeklyTaskRepository.findByPriority(0L);
+
+        if(problemToSend==null){
+            System.out.println("нет задач.");
+            // реализовать отправку сообщения админам о том что нужно выложить задачу
+            return;
+        }
+        long taskId = problemToSend.getId();
+
+        sendProblemToChat(taskId);
+        weeklyTaskRepository.delete(problemToSend);
+        weeklyTaskRepository.decreasePriorityForAllTasks();
+
+        //реализовать удаление папки с задачей
     }
 
 }
