@@ -78,6 +78,9 @@ public class WeeklyProblemsController {
         }
     }
 
+    /*
+    Добавить обработку случая отсутствия файла
+     */
     @GetMapping("image/{id}")
     @ResponseBody
     public byte[] getImage(@PathVariable Long id) throws IOException {
