@@ -2,3 +2,6 @@ BUG & ERRORS LIST:
 
  - f*cking "?continue" after login
  -
+
+What's next:
+ - sendTask (WeeklyProblemsController). Release delete folder and send messages

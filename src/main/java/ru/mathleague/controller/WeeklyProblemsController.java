@@ -276,4 +276,33 @@ public class WeeklyProblemsController {
         //реализовать удаление папки с задачей
     }
 
+    @PostMapping("updatePriority")
+    public ResponseEntity<String>  updatePriority(@RequestParam("oldPriority") Long oldPriority,
+                                                  @RequestParam("newPriority") Long newPriority,
+                                                  @RequestParam("newId") Long newId,
+                                                  @RequestParam("oldId") Long oldId){
+
+        long targetId = targetId = weeklyTaskRepository.findIdByPriority(oldPriority);
+
+        if(oldPriority==newPriority){
+            return ResponseEntity.ok("OK!! NIGGER OK!!!");
+        }
+
+        if (Math.max(oldPriority, newPriority)>=weeklyTaskRepository.count()){
+            //обновить страницу, данные устарели
+            return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body("Update page!");
+        }
+
+        if(oldPriority<newPriority){
+            weeklyTaskRepository.decreasePriorityBetween(oldPriority, newPriority);
+        }
+        else{
+            weeklyTaskRepository.increasePriorityBetween(newPriority, oldPriority);
+        }
+
+        weeklyTaskRepository.changePriorityById(targetId, newPriority);
+
+        return ResponseEntity.ok("OK!! NIGGER OK!!!");
+    }
+
 }

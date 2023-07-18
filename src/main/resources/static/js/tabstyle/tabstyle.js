@@ -10,7 +10,8 @@
       mouseDownY = 0,
       mouseX = 0,
       mouseY = 0,
-      mouseDrag = false;
+      mouseDrag = false,
+      oldRow = null;
 
   function init() {
     bindMouse();
@@ -22,6 +23,7 @@
 
       let target = getTargetRow(event.target);
       if (target) {
+        oldRow = Array.from(tbody.children).indexOf(target);
         currRow = target;
         addDraggableRow(target);
         currRow.classList.add('is-dragging');
@@ -50,6 +52,31 @@
     document.addEventListener('mouseup', (event) => {
       if (!mouseDrag) return;
 
+      console.log("Old num: ", oldRow);
+      console.log("New num: ", Array.from(tbody.children).indexOf(currRow));
+
+
+      var token = $("meta[name='_csrf']").attr("content");
+      var header = $("meta[name='_csrf_header']").attr("content");
+      var xhr = new XMLHttpRequest();
+      var url = '/weekly-problems/updatePriority';
+      var oldIndex = oldRow;
+      var newIndex = Array.from(tbody.children).indexOf(currRow);
+
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader(header, token);
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          var response = xhr.responseText;
+          console.log("Ok!"); // Обработайте полученный ответ
+        }
+      };
+
+      var params = 'oldPriority=' + encodeURIComponent(oldIndex) + '&newPriority=' + encodeURIComponent(newIndex);
+      xhr.send(params);
+
       currRow.classList.remove('is-dragging');
       table.removeChild(dragElem);
 
@@ -62,7 +89,16 @@
     let currIndex = Array.from(tbody.children).indexOf(currRow),
         row1 = currIndex > index ? currRow : row,
         row2 = currIndex > index ? row : currRow;
+
+    //save data value
+    let row1Value = row1.children[3].textContent;
+    let row2Value = row2.children[3].textContent;
+
     tbody.insertBefore(row1, row2);
+
+    //upd saved data value
+    row1.children[3].textContent = row2Value;
+    row2.children[3].textContent = row1Value;
   }
 
   function moveRow(x, y) {
