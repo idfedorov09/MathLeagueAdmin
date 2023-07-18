@@ -1,5 +1,10 @@
 package ru.mathleague.util;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -13,15 +18,26 @@ public class ProblemSender {
     private static String BOT_TOKEN;
     private static String CHAT_ID;
 
-    public ProblemSender(){
+    @Autowired
+    private final ResourceLoader resourceLoader;
+
+    @Autowired
+    public ProblemSender(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
+
+    @PostConstruct
+    public void init(){
         Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream("tg.properties"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Resource resource = resourceLoader.getResource("classpath:tg.properties");
+
+        try (InputStream inputStream = resource.getInputStream()) {
+            properties.load(inputStream);
+            this.BOT_TOKEN = properties.getProperty("tgBotToken");
+            this.CHAT_ID = properties.getProperty("tgChatId");
+        }catch (IOException e) {
+            e.printStackTrace();
         }
-        this.BOT_TOKEN = properties.getProperty("tgBotToken");
-        this.CHAT_ID = properties.getProperty("tgChatId");
     }
     public void sendPhotoToTelegram(String imagePath, String description) {
 

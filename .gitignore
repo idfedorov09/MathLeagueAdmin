@@ -40,4 +40,4 @@ out/
 keystore*
 /src/main/resources/static/js/src/
 /data/
-/tg.properties
+/src/main/resources/tg.properties
