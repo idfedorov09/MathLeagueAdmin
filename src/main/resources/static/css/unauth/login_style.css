@@ -101,3 +101,10 @@ footer p {
     90% { opacity: 0; }
     100% { opacity: 0; display: none; }
 }
+
+p.err{
+    margin: 0;
+    margin-top: 2px;
+    color: #ff4d4d;
+    font-size: 12px;
+}

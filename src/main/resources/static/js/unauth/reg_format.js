@@ -92,6 +92,9 @@ inputElement.addEventListener('paste', function(event) {
         var toAdd = insertSymbol(event.target, pastedText[i], index+i);
         index+=toAdd;
     }
+
+    checklol();
+
 });
 
 
@@ -131,12 +134,17 @@ function insertSymbol(target, enteredCharacter, index){
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
+const form = document.querySelector('form');
+    form.addEventListener('input', function() {
+        checklol();
+    });
+});
+
+function checklol(){
+const form = document.querySelector('form');
     const registerButton = document.getElementById('registerButton');
     const secretKeyInput = document.getElementById('secretKey');
-
-    form.addEventListener('input', function() {
-        const inputs = form.querySelectorAll('input');
+const inputs = form.querySelectorAll('input');
         let isEmpty = false;
         let isValidKey = false;
 
@@ -152,5 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         registerButton.disabled = isEmpty || !isValidKey;
-    });
-});
+}
+
+checklol();

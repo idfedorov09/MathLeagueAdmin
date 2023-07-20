@@ -19,6 +19,7 @@ import ru.mathleague.util.KeyChecker;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 
 @Controller
 public class RegistrationController {
@@ -46,6 +47,14 @@ public class RegistrationController {
         return keyChecker.checkKey(key);
     }
 
+    /*
+     не учитывая длину
+     */
+    public static boolean isValidUsername(String username) {
+        String regex = "^[a-zA-Z0-9_\\\\-]+$";
+        return username.matches(regex);
+    }
+
     @PostMapping("/registration")
     public String addUser(User user,
                           RedirectAttributesModelMap redirectModel, Model model,
@@ -53,6 +62,9 @@ public class RegistrationController {
                           HttpServletRequest request)
     {
         User userFromDatabase = userRepository.findByUsername(user.getUsername());
+
+        model.addAttribute("user", user);
+        model.addAttribute("secretKeyVal", secretKey);
 
         if( userFromDatabase != null ) {
             model.addAttribute("existError", true);
@@ -65,10 +77,47 @@ public class RegistrationController {
             return "registration";
         }
 
+        boolean goBackError = false;
+
+        if(!(user.getUsername().length()>=4 && user.getUsername().length()<=24)){
+            goBackError = true;
+            model.addAttribute("usernameError", "Логин должен быть длиной от 4 до 24 символов");
+        }
+        else if(!isValidUsername(user.getUsername())){
+            goBackError = true;
+            model.addAttribute("usernameError", "Логин должен содержать только латинские буквы, цифры, символы подчеркивания или тире");
+        }
+
+        if(!(user.getUser_nick().length()>=4 && user.getUser_nick().length()<=32)){
+            goBackError = true;
+            model.addAttribute("nicknameError", "Никнейм должен быть длиной от 4 до 32 символов");
+        }
+
+        if(!(user.getPassword().length()>=4 && user.getPassword().length()<=32)){
+            goBackError = true;
+            model.addAttribute("passwordError", "Пароль должен быть длиной от 4 до 32 символов");
+        }
+
+        if(goBackError){
+            return "registration";
+        }
+
         user.setActive(true);
         user.setOnline(true);
         user.setLastRequest(new Date());
         user.setRoles(Collections.singleton(Role.USER));
+
+        /*////////////////////////////////////////////
+                                                    ||
+        ADMIN CREATE          !!!                   ||
+                                                    ||
+        *//////////////////////////////////////////////
+
+        if(userRepository.count()==0){
+            user.setRoles(EnumSet.of(Role.USER, Role.ADMIN));
+        }
+
+        ///////////////////////////////////////////////
 
         String beforeEncodingPassword = user.getPassword();
 

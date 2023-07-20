@@ -13,23 +13,26 @@
     <form th:action="@{/registration}" method="post">
 
         <div class="input-group">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
+            <label for="username">Login</label>
+            <input type="text" name="username" id="username" required th:attr="value=${user != null} ? ${user.username} : ''">
+            <p class="err" th:text="${usernameError}"></p>
         </div>
 
         <div class="input-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required th:attr="value=${user != null} ? ${user.password} : ''">
+            <p class="err" th:text="${passwordError}"></p>
         </div>
 
         <div class="input-group">
-            <label for="user_nick">User Nick</label>
-            <input type="text" id="user_nick" name="user_nick" required>
+            <label for="user_nick">Nickname</label>
+            <input type="text" id="user_nick" name="user_nick" required th:attr="value=${user != null} ? ${user.user_nick} : ''">
+            <p class="err" th:text="${nicknameError}"></p>
         </div>
 
         <div class="input-group">
             <label for="secretKey">Secret Key</label>
-            <input type="text" id="secretKey" name="secretKey" class="secret" required>
+            <input type="text" id="secretKey" name="secretKey" class="secret" required th:attr="value=${secretKeyVal}">
         </div>
 
         <div class="input-group">
