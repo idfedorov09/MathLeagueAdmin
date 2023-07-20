@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Регистрация | MathLeagueAdmin</title>
     <link rel="stylesheet" th:href="@{/css/unauth/login_style.css}" />
-    <script th:src="@{/js/unauth/reg_format.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="login-container">
@@ -29,7 +29,7 @@
 
         <div class="input-group">
             <label for="secretKey">Secret Key</label>
-            <input type="text" id="secretKey" name="secretKey" required oninput="formatSecretKey(this)">
+            <input type="text" id="secretKey" name="secretKey" class="secret" required>
         </div>
 
         <div class="input-group">
@@ -50,6 +50,6 @@
         <p>Created by Fedorov Ivan</p>
     </footer>
 </div>
-
+<script th:src="@{/js/unauth/reg_format.js}"></script>
 </body>
 </html>

@@ -8,7 +8,12 @@ public class KeyChecker {
 
     @Autowired
     public KeyChecker(){
-        System.load(System.getProperty("user.dir")+"/libkey_checker.so");
+        try {
+            System.load(System.getProperty("user.dir")+"/libkey_checker.so");
+        }
+        catch (java.lang.UnsatisfiedLinkError e){
+            System.out.println("Exception: "+e);
+        }
     }
 
     public native boolean checkKey(String key);
