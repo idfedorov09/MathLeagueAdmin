@@ -42,7 +42,7 @@
                         </li>
 
                         <li class="admin-type">
-                            <a href="#" th:if="${#authentication.principal.isAdmin}">
+                            <a href="/admin/secret_keys" th:if="${#authentication.principal.isAdmin}">
                                 <i class="fa-solid fa-key"></i> Секретные ключи
                             </a>
                         </li>

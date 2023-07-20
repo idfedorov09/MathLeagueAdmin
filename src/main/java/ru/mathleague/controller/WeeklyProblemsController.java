@@ -278,9 +278,7 @@ public class WeeklyProblemsController {
 
     @PostMapping("updatePriority")
     public ResponseEntity<String>  updatePriority(@RequestParam("oldPriority") Long oldPriority,
-                                                  @RequestParam("newPriority") Long newPriority,
-                                                  @RequestParam("newId") Long newId,
-                                                  @RequestParam("oldId") Long oldId){
+                                                  @RequestParam("newPriority") Long newPriority){
 
         long targetId = targetId = weeklyTaskRepository.findIdByPriority(oldPriority);
 
@@ -302,7 +300,7 @@ public class WeeklyProblemsController {
 
         weeklyTaskRepository.changePriorityById(targetId, newPriority);
 
-        return ResponseEntity.ok("OK!! NIGGER OK!!!");
+        return ResponseEntity.ok("updated.");
     }
 
 }

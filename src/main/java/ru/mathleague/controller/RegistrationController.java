@@ -3,22 +3,21 @@ package ru.mathleague.controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
-import ru.mathleague.entity.SecretKey;
+import ru.mathleague.entity.UsedSecretKey;
 import ru.mathleague.entity.User;
 import ru.mathleague.entity.util.Role;
-import ru.mathleague.repository.SecretKeyRepository;
+import ru.mathleague.repository.UsedSecretKeyRepository;
 import ru.mathleague.repository.UserRepository;
+import ru.mathleague.util.KeyChecker;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 @Controller
 public class RegistrationController {
@@ -27,23 +26,20 @@ public class RegistrationController {
     private UserRepository userRepository;
 
     @Autowired
-    private SecretKeyRepository secretKeyRepository;
+    private UsedSecretKeyRepository usedSecretKeyRepository;
+
+    @Autowired
+    private KeyChecker keyChecker;
 
     @GetMapping("/registration")
     public String registration(){
         return "registration";
     }
 
-    private static boolean regexCheck(String key) {
-        String regex = "^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$";
-        return Pattern.matches(regex, key);
-    }
     private boolean keyIsCorrect(String key){
-       /* if(!regexCheck(key)) return false;
-        SecretKey cmp = secretKeyRepository.findBySecretKey(key);
-
-        return !(cmp==null || !cmp.compareUsingEncoding(key));*/
-        return true;
+        UsedSecretKey testKey = usedSecretKeyRepository.findBySecretKey(key);
+        if(testKey!=null) return false; //использован!
+        return keyChecker.checkKey(key);
     }
 
     @PostMapping("/registration")
@@ -75,10 +71,13 @@ public class RegistrationController {
 
         userRepository.save(user);
 
+        UsedSecretKey usedKey = new UsedSecretKey(secretKey, user);
+        usedSecretKeyRepository.save(usedKey);
+
         try {
                 request.login(user.getUsername(), user.getPassword());
         }catch (ServletException e){
-            System.out.println("LOGIN ERROR: "+e);
+            System.out.println("LOGIN (after reg) ERROR: "+e);
         }
 
 

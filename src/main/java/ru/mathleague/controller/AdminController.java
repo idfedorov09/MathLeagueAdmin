@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.mathleague.entity.UsedSecretKey;
 import ru.mathleague.entity.User;
 import ru.mathleague.entity.util.Role;
+import ru.mathleague.repository.UsedSecretKeyRepository;
 import ru.mathleague.repository.UserRepository;
 
 import java.util.*;
@@ -23,6 +25,9 @@ public class AdminController {
 
     @Autowired
     private SessionUtil sessionUtil;
+
+    @Autowired
+    UsedSecretKeyRepository usedSecretKeyRepository;
 
     @GetMapping("/users")
     public String usersPage(Model model) {
@@ -92,6 +97,13 @@ public class AdminController {
         userRepository.save(user);
 
         return ResponseEntity.ok("User deleted successfully");
+    }
+
+    @GetMapping("/secret_keys")
+    public String usedSecretKeys(Model model){
+        List<UsedSecretKey> allUsedKeys = usedSecretKeyRepository.findAllByOrderById();
+        model.addAttribute("allUsedKeys", allUsedKeys);
+        return "admin/used_keys";
     }
 
 }

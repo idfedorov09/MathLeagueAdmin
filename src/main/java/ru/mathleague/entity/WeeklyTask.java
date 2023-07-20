@@ -19,7 +19,7 @@ public class WeeklyTask {
 
     private Long priority;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private User author;
 
     private String title;

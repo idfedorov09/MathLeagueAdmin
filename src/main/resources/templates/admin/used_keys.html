@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html>
+
+<head>
+    <title>Главная | MathLeagueAdmin</title>
+
+    <th:block  th:insert="~{main-template :: styles}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/admin/users.css}" />
+    <script th:src="@{/js/main/main_anim1.js}"></script>
+    <script th:src="@{/js/admin/users.js}"></script>
+</head>
+
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<body>
+
+<header th:insert="~{main-template :: header}"></header>
+
+<main>
+    <section id="user-list" class="section">
+        <div class="users-container">
+            <h2>Список пользователей</h2>
+            <div class="user-table">
+                <table>
+                    <thead class="names">
+                    <tr>
+                        <th>Id</th>
+                        <th>Ключ</th>
+                        <th>Имя пользователя</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="key : ${allUsedKeys}">
+                        <tr>
+                            <td th:text="${key.id}"></td>
+                            <td th:text="${key.secretKey}"></td>
+                            <td th:text="${key.whoUsed.username}"></td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer th:insert="~{main-template :: footer}"></footer>
+
+</body>
