@@ -7,7 +7,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import ru.mathleague.repository.UserRepository;
@@ -30,6 +32,9 @@ public class WebSecurityConfig {
     @Autowired
     private SessionRegistry sessionRegistry;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -38,7 +43,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/css/unauth/**").permitAll()
                         .requestMatchers("/js/unauth/**").permitAll()
                         .requestMatchers("/images/unauth/**", "/favicon.ico").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        //.requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -58,9 +63,14 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    @Autowired
+   /* @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
+    }*/
+
+    @Autowired
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 }

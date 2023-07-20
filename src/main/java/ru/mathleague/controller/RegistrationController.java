@@ -3,6 +3,7 @@ package ru.mathleague.controller;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,9 @@ public class RegistrationController {
 
     @Autowired
     private KeyChecker keyChecker;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/registration")
     public String registration(){
@@ -66,8 +70,11 @@ public class RegistrationController {
         user.setLastRequest(new Date());
         user.setRoles(Collections.singleton(Role.USER));
 
-        //String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-        //user.setPassword(encodedPassword);
+        String beforeEncodingPassword = user.getPassword();
+
+        String encodedPassword = bCryptPasswordEncoder.encode(beforeEncodingPassword);
+        user.setPassword(encodedPassword);
+
 
         userRepository.save(user);
 
@@ -75,7 +82,7 @@ public class RegistrationController {
         usedSecretKeyRepository.save(usedKey);
 
         try {
-                request.login(user.getUsername(), user.getPassword());
+                request.login(user.getUsername(), beforeEncodingPassword);
         }catch (ServletException e){
             System.out.println("LOGIN (after reg) ERROR: "+e);
         }

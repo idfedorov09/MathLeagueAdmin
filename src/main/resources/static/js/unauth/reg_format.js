@@ -85,7 +85,7 @@ inputElement.addEventListener('paste', function(event) {
     const clipboardData = event.clipboardData || window.clipboardData;
     const pastedText = clipboardData.getData('text');
 
-    for (let i = 0, cnt = 0; i < pastedText.length, cnt<20; i++, cnt++) {
+    for (let i = 0, cnt = 0; i < pastedText.length && cnt<20; i++, cnt++) {
         let kek = event.target.value;
         kek += pastedText[i];
         event.target.value = kek;
@@ -96,14 +96,21 @@ inputElement.addEventListener('paste', function(event) {
 
 
 function insertSymbol(target, enteredCharacter, index){
+
     let inputText = target.value.toUpperCase();
     let newText = inputText;
     inputText = removeCharacterAtIndex(inputText, index);
 
+    if(enteredCharacter=='-' && (index==4 || index==9 || index==14)){
+        target.value = inputText;
+        setCaretPosition('secretKey', index+1);
+        return 0;
+    }
+
     if(!isDigitOrLetter(enteredCharacter)){
         target.value = inputText;
         setCaretPosition('secretKey', index);
-        return;
+        return 0;
     }
 
     newText = getWithoutDefis(newText);
