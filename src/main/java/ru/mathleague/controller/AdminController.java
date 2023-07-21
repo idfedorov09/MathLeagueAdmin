@@ -13,6 +13,7 @@ import ru.mathleague.entity.User;
 import ru.mathleague.entity.util.Role;
 import ru.mathleague.repository.UsedSecretKeyRepository;
 import ru.mathleague.repository.UserRepository;
+import ru.mathleague.util.ProblemSender;
 
 import java.util.*;
 
@@ -25,6 +26,9 @@ public class AdminController {
 
     @Autowired
     private SessionUtil sessionUtil;
+
+    @Autowired
+    private ProblemSender problemSender;
 
     @Autowired
     UsedSecretKeyRepository usedSecretKeyRepository;
@@ -104,6 +108,21 @@ public class AdminController {
         List<UsedSecretKey> allUsedKeys = usedSecretKeyRepository.findAllByOrderById();
         model.addAttribute("allUsedKeys", allUsedKeys);
         return "admin/used_keys";
+    }
+
+    @GetMapping("bots")
+    public String botsPage(Model model){
+        model.addAttribute("token", problemSender.getBotToken());
+        model.addAttribute("chatId", problemSender.getChatId());
+        return "bots-page";
+    }
+
+    @PostMapping("save-bot")
+    public ResponseEntity<String> saveBotSetting(@RequestParam("bot-token") String token, @RequestParam("chat-id") String chatId){
+
+        problemSender.setBotToken(token);
+        problemSender.setChatId(chatId);
+        return ResponseEntity.ok("saved.");
     }
 
 }

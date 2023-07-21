@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Главная | MathLeagueAdmin</title>
+
+    <th:block  th:insert="~{main-template :: styles}"></th:block>
+
+</head>
+
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<body>
+
+<header th:insert="~{main-template :: header}"></header>
+
+<form>
+    <label for="bot-token">Токен действующего бота:</label>
+    <input type="text" id="bot-token" name="token" th:attr="value=${token}"><br><br>
+    <label for="chat-id">id чата: </label>
+    <input type="text" id="chat-id" name="chat-id" th:attr="value=${chatId}"><br><br>
+
+    <input type="submit" value="Сохранить" id="saveBot">
+
+    <p id="savedSuccesfull">Сохранено!</p>
+</form>
+
+<main>
+
+</main>
+
+<footer th:insert="~{main-template :: footer}"></footer>
+
+</body>
+
+<script th:src="@{/js/admin/bots-page-control.js}"></script>
+<style>
+#savedSuccesfull {
+  color:#009900;
+  font-size:20px;
+  display: none;
+  opacity: 1;
+  transition: opacity 0.6s;
+}
+
+#savedSuccesfull.fade-out {
+  opacity: 0;
+}
+</style>
+
+</html>

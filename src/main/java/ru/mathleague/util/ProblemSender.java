@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
+import ru.mathleague.service.RedisService;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -15,8 +16,11 @@ import java.util.Properties;
 @Component
 public class ProblemSender {
 
-    private static String BOT_TOKEN;
-    private static String CHAT_ID;
+    private String BOT_TOKEN;
+    private String CHAT_ID;
+
+    @Autowired
+    private RedisService redisService;
 
     @Autowired
     private final ResourceLoader resourceLoader;
@@ -28,17 +32,48 @@ public class ProblemSender {
 
     @PostConstruct
     public void init(){
-        Properties properties = new Properties();
-        Resource resource = resourceLoader.getResource("classpath:tg.properties");
 
-        try (InputStream inputStream = resource.getInputStream()) {
-            properties.load(inputStream);
-            this.BOT_TOKEN = properties.getProperty("tgBotToken");
-            this.CHAT_ID = properties.getProperty("tgChatId");
-        }catch (IOException e) {
-            e.printStackTrace();
+        try{
+            BOT_TOKEN = (String) redisService.getConfig("botToken");
+            CHAT_ID = (String) redisService.getConfig("chatId");
+            if( BOT_TOKEN == null || CHAT_ID == null) throw new NullPointerException();
+        }catch (NullPointerException nullptr) {
+
+            System.out.println("Can't load bot properties from Redis. Trying get info using config file.");
+
+            Properties properties = new Properties();
+            Resource resource = resourceLoader.getResource("classpath:tg.properties");
+
+
+            try (InputStream inputStream = resource.getInputStream()) {
+                properties.load(inputStream);
+                this.BOT_TOKEN = properties.getProperty("tgBotToken");
+                this.CHAT_ID = properties.getProperty("tgChatId");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
+
+    public String getBotToken() {
+        return BOT_TOKEN;
+    }
+
+    public void setBotToken(String botToken) {
+        BOT_TOKEN = botToken;
+        redisService.saveConfig("botToken", botToken);
+    }
+
+    public String getChatId() {
+        return CHAT_ID;
+    }
+
+    public void setChatId(String chatId) {
+        CHAT_ID = chatId;
+        redisService.saveConfig("chatId", chatId);
+    }
+
     public void sendPhotoToTelegram(String imagePath, String description) {
 
         try {

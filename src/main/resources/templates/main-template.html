@@ -48,6 +48,14 @@
                         </li>
 
 
+                        <li class="admin-type">
+                            <a href="/admin/bots" th:if="${#authentication.principal.isAdmin}">
+                                <i class="fa-solid fa-robot"></i> Боты
+                            </a>
+                        </li>
+
+
+
                         <li><a href="#"> <i class="fa-sharp fa-solid fa-gears"></i> Настройки</a></li>
 
                         <li>
