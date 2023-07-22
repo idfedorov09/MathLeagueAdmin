@@ -77,14 +77,15 @@ public class WeeklyProblemsController {
     /*
     ALSO NEED TO ADD REMOVE DIRECTORY
      */
-    private boolean generateDirectory(String dir, String originDir){
+    private void generateDirectory(String dir, String originDir){
         try {
             FileUtils.copyDirectory(new File(originDir), new File(dir));
-            return true;
-        } catch (Exception e) {
+        } catch (java.nio.file.FileAlreadyExistsException e){
+            System.out.println("Attempt to create used weekly problem dir.");
+        }
+        catch (Exception e) {
             System.out.println("Create directory (weekly problem) error:");
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -163,17 +164,12 @@ public class WeeklyProblemsController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        generateDirectory(problemId);
+
         String problemCode = curTask.getLatexCode();
         try {
             FileUtils.writeStringToFile(new File(currentDir+"/Problems/1.tex"), problemCode, "UTF-8");
-        } catch (java.nio.file.NoSuchFileException e) {
-            generateDirectory(problemId);
-            try {
-                FileUtils.writeStringToFile(new File(currentDir + "/Problems/1.tex"), problemCode, "UTF-8");
-            }catch (IOException e1){
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        }catch (IOException e) {
+        } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

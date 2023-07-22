@@ -22,6 +22,12 @@ COPY $workpath/MathLeagueAdmin-0.0.1-SNAPSHOT.jar .
 COPY $workpath/libkey_checker.so .
 COPY $workpath/keystore.p12 .
 
+
+#for faster first load.
+#Recommended also add pdflatex, lualatex etc for feautures.
+RUN cd data/weekly-problem/template && \
+    xelatex main.tex
+
 EXPOSE 8080
 #443
 
@@ -30,7 +36,7 @@ ENV TZ Europe/Moscow
 CMD ["java", "-jar", "MathLeagueAdmin-0.0.1-SNAPSHOT.jar"]
 #docker build -t mathleague .
 #docker run --rm --name web -p 443:443 mathleague
-#sudo docker run --rm --name web -p 80:8080 -p 443:8080 -p 8080:8080 mathleague
+#docker run --rm --name web -p 80:8080 -p 443:8080 -p 8080:8080 mathleague
 
 #remove <none> rmi
 #
@@ -43,4 +49,4 @@ CMD ["java", "-jar", "MathLeagueAdmin-0.0.1-SNAPSHOT.jar"]
 
 #Start REDIS server
 #
-#sudo docker run -d -p 6379:6379 --name redis_container -e REDIS_PASSWORD=secret_password redis
+#docker run -d -p 6379:6379 --name redis_container -e REDIS_PASSWORD=0SVO-Z002-4022-2Z0V redis

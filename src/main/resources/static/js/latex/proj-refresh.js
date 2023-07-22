@@ -52,8 +52,6 @@ function changeImageSrc(problemId) {
     imageElement.src = newSrc;
 }
 
-changeImageSrc($("meta[id='taskId']").attr("content"));
-
 function highlightErrorLine(lineNumber, errorMessage) {
   editor.gotoLine(lineNumber, 0, true); // Переходим на указанную строку и выделяем её
 
