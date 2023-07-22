@@ -27,16 +27,19 @@ function performPostRequest() {
         return response;
     }).then(function (data) {
 
-        if (stat === 406) {
-           highlightErrorLine(data.errorLine, data.message);
-        }
-
         updateButton.disabled = false;
         loader.style.display = 'none';
 
-        var timestamp = new Date().getTime();
-        var newImageUrl = '/weekly-problems/image/'+problemId+'?timestamp=' + timestamp;
-        imageElement.src = newImageUrl;
+        if (stat === 406) {
+           highlightErrorLine(data.errorLine, data.message);
+           imageElement.src = "/images/preview.png";
+        }
+
+        else{
+            var timestamp = new Date().getTime();
+            var newImageUrl = '/weekly-problems/image/'+problemId+'?timestamp=' + timestamp;
+            imageElement.src = newImageUrl;
+        }
 
     }).catch(function (error) {
         console.error('Error on loading result image:', error);
