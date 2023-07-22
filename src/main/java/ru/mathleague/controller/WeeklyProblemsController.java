@@ -109,7 +109,7 @@ public class WeeklyProblemsController {
     }
 
 
-    private int regenLatex(long problemId){
+    private ResponseEntity<Map<String, Object>> regenLatex(long problemId){
         String currentDir = PROBLEMS_DIR+problemId;
         ProcessBuilder processBuilder = new ProcessBuilder("xelatex", "main.tex");
         processBuilder.directory(new File(currentDir));
@@ -137,19 +137,19 @@ public class WeeklyProblemsController {
                     response.put("errorLine", errorLine);
                     response.put("message", errorMessage);
 
-                    return HttpStatus.NOT_ACCEPTABLE.value();
+                    return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
                 }
             }
 
         }catch (IOException e){
             System.out.println(e);
-            return HttpStatus.BAD_REQUEST.value();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return HttpStatus.OK.value();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private int regenLatexAndDate(WeeklyTask task){
+    private ResponseEntity<Map<String, Object>> regenLatexAndDate(WeeklyTask task){
         setDate(10, task);
         return regenLatex(task.getId());
     }
@@ -173,10 +173,10 @@ public class WeeklyProblemsController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        int regenLatexStatus = regenLatexAndDate(curTask);
+        ResponseEntity<Map<String, Object>> regenLatexResp = regenLatexAndDate(curTask);
 
-        if (regenLatexStatus != HttpStatus.OK.value()) {
-            return new ResponseEntity<>(HttpStatus.valueOf(regenLatexStatus));
+        if (regenLatexResp.getStatusCode() != HttpStatus.OK) {
+            return regenLatexResp;
         }
 
         try {
