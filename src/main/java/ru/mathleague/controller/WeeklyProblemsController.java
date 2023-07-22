@@ -7,6 +7,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
@@ -55,6 +56,10 @@ public class WeeklyProblemsController {
         return "time_problems";
     }
 
+    private void generateDirectory(long problemId){
+        generateDirectory(PROBLEMS_DIR+problemId, PROBLEMS_DIR+"template");
+    }
+
     @GetMapping("new-problem")
     public String createProblem(){
 
@@ -62,9 +67,9 @@ public class WeeklyProblemsController {
         User author = (User)authentication.getPrincipal();
         WeeklyTask weeklyTask = new WeeklyTask(weeklyTaskRepository.count(), author);
         weeklyTaskRepository.save(weeklyTask);
-        long id = weeklyTask.getId();
 
-        generateDirectory(PROBLEMS_DIR+id, PROBLEMS_DIR+"template");
+        long id = weeklyTask.getId();
+        generateDirectory(id);
 
         return "redirect:/weekly-problems/"+id;
     }
@@ -76,47 +81,37 @@ public class WeeklyProblemsController {
         try {
             FileUtils.copyDirectory(new File(originDir), new File(dir));
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Create directory (weekly problem) error:");
             e.printStackTrace();
             return false;
         }
     }
 
-    /*
-    Добавить обработку случая отсутствия файла
-     */
+
     @GetMapping("image/{id}")
     @ResponseBody
-    public byte[] getImage(@PathVariable Long id) throws IOException {
+    public byte[] getImage(@PathVariable Long id) throws IOException{
         String imagePath = PROBLEMS_DIR + id +"/image.jpg";
         Path image = Paths.get(imagePath);
-        return Files.readAllBytes(image);
+        byte[] resultImage = null;
+        try{
+            resultImage = Files.readAllBytes(image);
+        }catch (java.nio.file.NoSuchFileException e){
+            generateDirectory(id);
+            resultImage = Files.readAllBytes(image);
+        }
+        finally {
+            return resultImage;
+        }
+
     }
 
-    @PostMapping("refresh")
-    public ResponseEntity<Map<String, Object>> refreshProblem(@RequestParam("id") Long problemId)  {
 
+    private int regenLatex(long problemId){
         String currentDir = PROBLEMS_DIR+problemId;
-        WeeklyTask curTask = weeklyTaskRepository.findById(problemId);
-
-        if(curTask==null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        String problemCode = curTask.getLatexCode();
-        try {
-            FileUtils.writeStringToFile(new File(currentDir+"/Problems/1.tex"), problemCode, "UTF-8");
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        setDate(10, curTask);
-
-
         ProcessBuilder processBuilder = new ProcessBuilder("xelatex", "main.tex");
         processBuilder.directory(new File(currentDir));
-        int exitCode = 0;
 
         String errorMessage = "not defined";
         int errorLine;
@@ -141,18 +136,51 @@ public class WeeklyProblemsController {
                     response.put("errorLine", errorLine);
                     response.put("message", errorMessage);
 
-                    return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+                    return HttpStatus.NOT_ACCEPTABLE.value();
                 }
             }
 
-            exitCode = process.waitFor();
+        }catch (IOException e){
+            System.out.println(e);
+            return HttpStatus.BAD_REQUEST.value();
+        }
 
-        }catch (IOException | InterruptedException e){
+        return HttpStatus.OK.value();
+    }
+
+    private int regenLatexAndDate(WeeklyTask task){
+        setDate(10, task);
+        return regenLatex(task.getId());
+    }
+
+    @PostMapping("refresh")
+    public ResponseEntity<Map<String, Object>> refreshProblem(@RequestParam("id") Long problemId)  {
+
+        String currentDir = PROBLEMS_DIR+problemId;
+        WeeklyTask curTask = weeklyTaskRepository.findById(problemId);
+
+        if(curTask==null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String problemCode = curTask.getLatexCode();
+        try {
+            FileUtils.writeStringToFile(new File(currentDir+"/Problems/1.tex"), problemCode, "UTF-8");
+        } catch (java.nio.file.NoSuchFileException e) {
+            generateDirectory(problemId);
+            try {
+                FileUtils.writeStringToFile(new File(currentDir + "/Problems/1.tex"), problemCode, "UTF-8");
+            }catch (IOException e1){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if (exitCode != 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        int regenLatexStatus = regenLatexAndDate(curTask);
+
+        if (regenLatexStatus != HttpStatus.OK.value()) {
+            return new ResponseEntity<>(HttpStatus.valueOf(regenLatexStatus));
         }
 
         try {
@@ -172,7 +200,9 @@ public class WeeklyProblemsController {
             List<String> lines = FileUtils.readLines(file, "UTF-8");
             lines.set(lineNumber - 1, date);
             FileUtils.writeLines(file, "UTF-8", lines);
-        } catch (IOException e) {
+        } catch (java.nio.file.NoSuchFileException e) {
+            generateDirectory(weeklyTask.getId());
+        }catch (IOException e){
             System.out.println("Writing latex date (weekly task) error: " + e);
         }
     }
@@ -211,6 +241,17 @@ public class WeeklyProblemsController {
         return "edit_problem";
     }
 
+    private void removeProblem(long problemId){
+        String path = PROBLEMS_DIR + problemId;
+        try {
+            FileUtils.deleteDirectory(new File(path));
+        }
+        catch (IOException e){
+            System.out.println("Can't remove directory "+path);
+            System.out.println("Maybe, directory doesn't exist. Error: "+e);
+        }
+    }
+
     @PostMapping("delete/{problem-id}")
     @Transactional
     public ResponseEntity<String> deleteProblem(@PathVariable("problem-id") Long problemId){
@@ -219,7 +260,11 @@ public class WeeklyProblemsController {
 
         if(taskToRemove!=null) {
             weeklyTaskRepository.delete(taskToRemove);
+            weeklyTaskRepository.decreasePriorityAfter(taskToRemove.getPriority());
         }
+
+        removeProblem(problemId);
+
         return ResponseEntity.ok("Problem deleted successfully");
     }
 
@@ -273,14 +318,14 @@ public class WeeklyProblemsController {
         weeklyTaskRepository.delete(problemToSend);
         weeklyTaskRepository.decreasePriorityForAllTasks();
 
-        //реализовать удаление папки с задачей
+        removeProblem(taskId);
     }
 
     @PostMapping("updatePriority")
     public ResponseEntity<String>  updatePriority(@RequestParam("oldPriority") Long oldPriority,
                                                   @RequestParam("newPriority") Long newPriority){
 
-        long targetId = targetId = weeklyTaskRepository.findIdByPriority(oldPriority);
+        long targetId = weeklyTaskRepository.findIdByPriority(oldPriority);
 
         if(oldPriority==newPriority){
             return ResponseEntity.ok("OK!! NIGGER OK!!!");

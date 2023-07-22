@@ -197,7 +197,11 @@
 
 
 $(document).ready(function() {
-    $('.action-btn.delete-btn').click(function(){
+    $('.action-btn.delete-btn').click(function(e){
+
+            const prior = $(this).closest('tr').index();
+
+            console.log(prior);
 
             var problemId = $(this).data('problem-id');
             var token = $("meta[name='_csrf']").attr("content");
@@ -212,6 +216,7 @@ $(document).ready(function() {
             xhr.onload = function() {
               if (xhr.status === 200) {
                  $(raw).closest("tr").remove();
+                 decreaseFirstColumn(document.getElementById('table'), prior);
               } else {
                 console.error("Error on removing");
               }
@@ -224,3 +229,16 @@ $(document).ready(function() {
                 window.location.href = "/weekly-problems/"+problemId;
         });
 });
+
+function decreaseFirstColumn(table, targetRowNumber) {
+
+  const rows = table.querySelectorAll('tbody tr');
+  rows.forEach((row, index) => {
+    if (index + 1 > targetRowNumber) {
+      const firstCell = row.querySelector('td:nth-child(1)');
+      let value = parseInt(firstCell.innerText);
+      value--;
+      firstCell.innerText = value;
+    }
+  });
+}

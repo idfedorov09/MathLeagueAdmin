@@ -30,6 +30,11 @@ public interface WeeklyTaskRepository extends JpaRepository<WeeklyTask, Void> {
 
     @Transactional
     @Modifying
+    @Query("UPDATE WeeklyTask e SET e.priority = e.priority - 1 WHERE e.priority > :a")
+    void decreasePriorityAfter(long a);
+
+    @Transactional
+    @Modifying
     @Query("UPDATE WeeklyTask e SET e.priority = e.priority + 1 WHERE e.priority >= :a AND e.priority < :b")
     void increasePriorityBetween(long a, long b);
 
