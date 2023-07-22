@@ -308,7 +308,10 @@ public class WeeklyProblemsController {
             // реализовать отправку сообщения админам о том что нужно выложить задачу
             return;
         }
+
         long taskId = problemToSend.getId();
+
+        refreshProblem(taskId); /// здесь можно отправить сообщение админам о неудачной обработке задачи
 
         sendProblemToChat(taskId);
         weeklyTaskRepository.delete(problemToSend);
