@@ -117,5 +117,9 @@ public class WeeklyTask {
         return String.format("%02d.%02d.%04d", dateArray[0], dateArray[1], dateArray[2]);
     }
 
+    public String postDateStr() {
+        return postDateStr(false);
+    }
+
 
 }
