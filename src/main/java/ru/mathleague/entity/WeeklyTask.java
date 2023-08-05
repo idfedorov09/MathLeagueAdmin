@@ -80,9 +80,15 @@ public class WeeklyTask {
         this.latexCode = latexCode;
     }
 
-    public int[] postDate(long count) {
+    public int[] postDate(long count, boolean isRevertTime) {
         ZoneId moscowZone = ZoneId.of("Europe/Moscow");
         LocalDateTime moscowNow = LocalDateTime.now(moscowZone);
+
+        //добавить настройку времени?? тут уже удобно начать переписывать на котлин, но зачем, если все равно всю матлигу переписывать..
+        if(isRevertTime){
+            moscowNow = moscowNow.minusMinutes(30);
+        }
+
         LocalDate today = moscowNow.toLocalDate();
 
         DayOfWeek currentDayOfWeek = today.getDayOfWeek();
@@ -102,12 +108,12 @@ public class WeeklyTask {
         return res;
     }
 
-    public int[] postDate() {
-        return this.postDate(this.priority);
+    public int[] postDate(boolean isRevertTime) {
+        return this.postDate(this.priority, isRevertTime);
     }
 
-    public String postDateStr() {
-        int[] dateArray = this.postDate();
+    public String postDateStr(boolean isRevertTime) {
+        int[] dateArray = this.postDate(isRevertTime);
         return String.format("%02d.%02d.%04d", dateArray[0], dateArray[1], dateArray[2]);
     }
 

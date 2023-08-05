@@ -149,14 +149,17 @@ public class WeeklyProblemsController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private ResponseEntity<Map<String, Object>> regenLatexAndDate(WeeklyTask task){
-        setDate(10, task);
+    private ResponseEntity<Map<String, Object>> regenLatexAndDate(WeeklyTask task, boolean isRevertTime){
+        setDate(10, task, isRevertTime);
         return regenLatex(task.getId());
     }
 
     @PostMapping("refresh")
     public ResponseEntity<Map<String, Object>> refreshProblem(@RequestParam("id") Long problemId)  {
+        return refreshProblem(problemId, false);
+    }
 
+    public ResponseEntity<Map<String, Object>> refreshProblem(Long problemId, boolean isRevertTime)  {
         String currentDir = PROBLEMS_DIR+problemId;
         WeeklyTask curTask = weeklyTaskRepository.findById(problemId);
 
@@ -173,7 +176,7 @@ public class WeeklyProblemsController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        ResponseEntity<Map<String, Object>> regenLatexResp = regenLatexAndDate(curTask);
+        ResponseEntity<Map<String, Object>> regenLatexResp = regenLatexAndDate(curTask, isRevertTime);
 
         if (regenLatexResp.getStatusCode() != HttpStatus.OK) {
             return regenLatexResp;
@@ -188,9 +191,9 @@ public class WeeklyProblemsController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void setDate(int lineNumber, WeeklyTask weeklyTask){
+    private void setDate(int lineNumber, WeeklyTask weeklyTask, boolean isRevertTime){
         File file = new File(PROBLEMS_DIR+weeklyTask.getId()+"/main.tex");
-        var dateArray = weeklyTask.postDate();
+        var dateArray = weeklyTask.postDate(isRevertTime);
         String date = "\\task[\\day = %d \\month = %d \\year = %d]{1}".formatted(dateArray[0], dateArray[1], dateArray[2]);
         try {
             List<String> lines = FileUtils.readLines(file, "UTF-8");
@@ -311,7 +314,7 @@ public class WeeklyProblemsController {
 
         long taskId = problemToSend.getId();
 
-        refreshProblem(taskId); /// здесь можно отправить сообщение админам о неудачной обработке задачи
+        refreshProblem(taskId, true); /// здесь можно отправить сообщение админам о неудачной обработке задачи
 
         sendProblemToChat(taskId);
         weeklyTaskRepository.delete(problemToSend);
