@@ -35,10 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
-/gradle/
 /myhelps/
 keystore*
-/src/main/resources/static/js/src/
 /data/
 /src/main/resources/tg.properties
 /libkey_checker.so

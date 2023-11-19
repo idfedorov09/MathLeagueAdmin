@@ -49,4 +49,8 @@ CMD ["java", "-jar", "MathLeagueAdmin-0.0.1-SNAPSHOT.jar"]
 
 #Start REDIS server
 #
-#docker run -d -p 6379:6379 --name redis_container -e REDIS_PASSWORD=0SVO-Z002-4022-2Z0V redis
+#docker run -d -p 6379:6379 --name redis_container redis --requirepass "0SVO-Z002-4022-2Z0V"
+#
+#using docker-compose.yml:
+#
+#cd ./MATHLEAGUE/redis && docker-compose up -d
